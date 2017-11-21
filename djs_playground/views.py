@@ -6,11 +6,11 @@ from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
 class SampleForm(forms.Form):
     desc1 = forms.CharField(
-        label='',
+        label='iframe',
         widget=SummernoteWidget()
     )
     desc2 = forms.CharField(
-        label='',
+        label='in place',
         widget=SummernoteInplaceWidget()
     )
 
