@@ -1,3 +1,4 @@
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.template.loader import render_to_string
@@ -7,14 +8,17 @@ from django_summernote.settings import summernote_config, get_attachment_model
 
 
 def editor(request, id):
+    static_default_css = tuple(static(x) for x in summernote_config['default_css'])
+    static_default_js = tuple(static(x) for x in summernote_config['default_js'])
+
     css = summernote_config['base_css'] \
           + (summernote_config['codemirror_css'] if 'codemirror' in summernote_config else ()) \
-          + summernote_config['default_css'] \
+          + static_default_css \
           + summernote_config['css']
 
     js = summernote_config['base_js'] \
          + (summernote_config['codemirror_js'] if 'codemirror' in summernote_config else ()) \
-         + summernote_config['default_js'] \
+         + static_default_js \
          + summernote_config['js']
 
     return render(
