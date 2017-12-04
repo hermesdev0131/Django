@@ -133,8 +133,7 @@ In settings.py,
         'airMode': False,
 
         # Use native HTML tags (`<b>`, `<i>`, ...) instead of style attributes
-        # (Firefox, Chrome only)
-        'styleWithTags': True,
+        'styleWithSpan': False,
 
         # Set text direction : 'left to right' is default.
         'direction': 'ltr',
