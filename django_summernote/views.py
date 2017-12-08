@@ -1,3 +1,4 @@
+import django
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
@@ -43,7 +44,8 @@ def upload_attachment(request):
         }, status=400)
 
     if summernote_config['attachment_require_authentication']:
-        if not request.user.is_authenticated():
+        if django.VERSION < (2, 0) and not request.user.is_authenticated() \
+                or not request.user.is_authenticated:
             return JsonResponse({
                 'status': 'false',
                 'message': _('Only authenticated users are allowed'),
