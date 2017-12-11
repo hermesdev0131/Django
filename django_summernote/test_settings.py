@@ -7,22 +7,18 @@ DATABASES = {
     }
 }
 
+__MIDDLEWARE__ = (
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+)
+
 if django.VERSION <= (1, 9):
-    MIDDLEWARE_CLASSES = (
-        'django.middleware.common.CommonMiddleware',
-        'django.contrib.sessions.middleware.SessionMiddleware',
-        'django.middleware.csrf.CsrfViewMiddleware',
-        'django.contrib.auth.middleware.AuthenticationMiddleware',
-        'django.middleware.locale.LocaleMiddleware',
-    )
+    MIDDLEWARE_CLASSES = __MIDDLEWARE__
 else:
-    MIDDLEWARE = (
-        'django.middleware.common.CommonMiddleware',
-        'django.contrib.sessions.middleware.SessionMiddleware',
-        'django.middleware.csrf.CsrfViewMiddleware',
-        'django.contrib.auth.middleware.AuthenticationMiddleware',
-        'django.middleware.locale.LocaleMiddleware',
-    )
+    MIDDLEWARE = __MIDDLEWARE__
 
 STATIC_URL = '/'
 MEDIA_ROOT = 'test_media'
