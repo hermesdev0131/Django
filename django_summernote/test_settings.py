@@ -1,3 +1,5 @@
+import django
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -5,13 +7,18 @@ DATABASES = {
     }
 }
 
-MIDDLEWARE_CLASSES = (
+__MIDDLEWARE__ = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.locale.LocaleMiddleware',
 )
+
+if django.VERSION <= (1, 9):
+    MIDDLEWARE_CLASSES = __MIDDLEWARE__
+else:
+    MIDDLEWARE = __MIDDLEWARE__
 
 STATIC_URL = '/'
 MEDIA_ROOT = 'test_media'

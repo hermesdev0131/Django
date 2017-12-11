@@ -326,7 +326,7 @@ class DjangoSummernoteTest(TestCase):
 
         class SimpleModel2(models.Model):
             foobar = models.TextField()
-            parent = models.ForeignKey(SimpleParentModel)
+            parent = models.ForeignKey(SimpleParentModel, on_delete=models.CASCADE)
 
         class SimpleModelInline(SummernoteInlineModelAdmin):
             model = SimpleModel2

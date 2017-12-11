@@ -1,3 +1,4 @@
+import django
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
@@ -12,14 +13,14 @@ def editor(request, id):
     static_default_js = tuple(static(x) for x in summernote_config['default_js'])
 
     css = summernote_config['base_css'] \
-          + (summernote_config['codemirror_css'] if 'codemirror' in summernote_config else ()) \
-          + static_default_css \
-          + summernote_config['css']
+        + (summernote_config['codemirror_css'] if 'codemirror' in summernote_config else ()) \
+        + static_default_css \
+        + summernote_config['css']
 
     js = summernote_config['base_js'] \
-         + (summernote_config['codemirror_js'] if 'codemirror' in summernote_config else ()) \
-         + static_default_js \
-         + summernote_config['js']
+        + (summernote_config['codemirror_js'] if 'codemirror' in summernote_config else ()) \
+        + static_default_js \
+        + summernote_config['js']
 
     return render(
         request,
@@ -42,8 +43,12 @@ def upload_attachment(request):
             'message': _('Only POST method is allowed'),
         }, status=400)
 
-    if summernote_config['attachment_require_authentication']:
-        if not request.user.is_authenticated():
+    authenticated = \
+        request.user.is_authenticated if django.VERSION >= (1, 10) \
+        else request.user.is_authenticated()
+
+    if summernote_config['attachment_require_authentication'] and \
+            not authenticated:
             return JsonResponse({
                 'status': 'false',
                 'message': _('Only authenticated users are allowed'),
