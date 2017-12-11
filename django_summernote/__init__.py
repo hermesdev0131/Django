@@ -1,8 +1,8 @@
-version_info = (0, 8, 8, 4)
+version_info = (0, 8, 8, 5)
 
 __version__ = version = '.'.join(map(str, version_info))
 __project__ = PROJECT = 'django-summernote'
-__author__ = AUTHOR = "Park Hyunwoo <ez.amiryo@gmail.com>"
+__author__ = AUTHOR = "django-summernote contributors"
 
 
 default_app_config = 'django_summernote.apps.DjangoSummernoteConfig'

@@ -261,5 +261,5 @@ LIMITATIONS
 LICENSE
 -------
 
-`django-summernote` is distributed under MIT license.
+`django-summernote` is distributed under MIT license and proudly served by great contributors.
 

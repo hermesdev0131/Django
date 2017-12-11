@@ -30,8 +30,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
 
-    author='Park Hyunwoo',
-    author_email='ez.amiryo' '@' 'gmail.com',
+    author='django-summernote contributors',
     maintainer='django-summernote maintainers',
     url='http://github.com/summernote/django-summernote',
 
