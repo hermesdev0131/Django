@@ -27,21 +27,12 @@ function initSummernote_{{ id }}() {
         function recalcHeight(e) {
             var nToolbar = e.find('.note-toolbar');
             var nEditable = e.find('.note-editable');
-{% if iframe %}
             var nEditor = $('.note-editor');
             var height = parseInt(
                 parseInt(settings.height)  // default
                 - nToolbar.outerHeight()  // toolbar height including margin,border,padding
                 - (nEditor.outerHeight() - nEditor.innerHeight())  // editor's border
             );
-{% else %}
-            var nStatusbar = e.find('.note-statusbar');
-            var height = parseInt(
-                parseInt(settings.height)  // default
-                - nToolbar.outerHeight()  // toolbar height including margin,border,padding
-                - nStatusbar.outerHeight()  // statusbar height including margin,border,padding
-            );
-{% endif %}
             nEditable.outerHeight(height);
         }
 
@@ -58,9 +49,11 @@ function initSummernote_{{ id }}() {
 
                     // Resize again when the height of note-toolbar changed
                     // This enhances calculation behaviors on Safari
+                {% if iframe %}
                     new ResizeSensor($nEditor.find('.note-toolbar'), function() {
                         recalcHeight($nEditor);
                     });
+                {% endif %}
 
                     // Move dropdown dialog when it exeeds the bound of the editor
                     $nEditor.find('.note-btn-group').on('shown.bs.dropdown', function () {
