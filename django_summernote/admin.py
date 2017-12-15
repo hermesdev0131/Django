@@ -8,11 +8,29 @@ __widget__ = SummernoteWidget if summernote_config['iframe'] \
 
 
 class SummernoteInlineModelAdmin(admin.options.InlineModelAdmin):
-    formfield_overrides = {models.TextField: {'widget': __widget__}}
+    summer_note_fields = ()
+
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        if self.summer_note_fields == '__all__':
+            if isinstance(db_field, models.TextField):
+                kwargs['widget'] = __widget__
+        else:
+            if db_field.name in self.summer_note_fields:
+                kwargs['widget'] = __widget__
+        return super(SummernoteInlineModelAdmin, self).formfield_for_dbfield(db_field, **kwargs)
 
 
 class SummernoteModelAdmin(admin.ModelAdmin):
-    formfield_overrides = {models.TextField: {'widget': __widget__}}
+    summer_note_fields = ()
+
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        if self.summer_note_fields == '__all__':
+            if isinstance(db_field, models.TextField):
+                kwargs['widget'] = __widget__
+        else:
+            if db_field.name in self.summer_note_fields:
+                kwargs['widget'] = __widget__
+        return super(SummernoteModelAdmin, self).formfield_for_dbfield(db_field, **kwargs)
 
 
 class AttachmentAdmin(admin.ModelAdmin):
@@ -23,5 +41,6 @@ class AttachmentAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         obj.name = obj.file.name if (not obj.name) else obj.name
         super(AttachmentAdmin, self).save_model(request, obj, form, change)
+
 
 admin.site.register(get_attachment_model(), AttachmentAdmin)
