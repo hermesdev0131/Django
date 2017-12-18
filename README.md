@@ -60,7 +60,7 @@ In `admin.py`,
 
     # Apply summernote to all TextField in model.
     class SomeModelAdmin(SummernoteModelAdmin):  # instead of ModelAdmin
-        ...
+        summer_note_fields = '__all__'
 
     admin.site.register(SomeModel, SomeModelAdmin)
 
@@ -69,22 +69,11 @@ Although `Post` model has several TextField, only `content` field will have `Sum
 
 In `admin.py`,
 
-    from django import forms
-    from django.contrib import admin
-    from django_summernote.widgets import SummernoteWidget    
+    from django_summernote.admin import SummernoteModelAdmin
     from .models import Post
-
-    class PostAdminForm(forms.ModelForm):
-        class Meta:
-            model = Post
-            widgets = {
-                'content': SummernoteWidget(),
-            }
-            fields = '__all__'   
     
-    class PostAdmin(admin.ModelAdmin):
-        form = PostAdminForm
-        ...
+    class PostAdmin(SummernoteModelAdmin):
+        summer_note_fields = ('content',)
     
     admin.site.register(Post, PostAdmin)
 
