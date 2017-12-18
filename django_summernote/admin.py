@@ -8,7 +8,7 @@ __widget__ = SummernoteWidget if summernote_config['iframe'] \
 
 
 class SummernoteInlineModelAdmin(admin.options.InlineModelAdmin):
-    summer_note_fields = ()
+    summer_note_fields = '__all__'
 
     def formfield_for_dbfield(self, db_field, **kwargs):
         if self.summer_note_fields == '__all__':
@@ -21,7 +21,7 @@ class SummernoteInlineModelAdmin(admin.options.InlineModelAdmin):
 
 
 class SummernoteModelAdmin(admin.ModelAdmin):
-    summer_note_fields = ()
+    summer_note_fields = '__all__'
 
     def formfield_for_dbfield(self, db_field, **kwargs):
         if self.summer_note_fields == '__all__':
