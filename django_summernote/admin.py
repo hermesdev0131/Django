@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.admin.options import InlineModelAdmin
 from django.db import models
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 from django_summernote.settings import summernote_config, get_attachment_model
@@ -7,7 +8,7 @@ __widget__ = SummernoteWidget if summernote_config['iframe'] \
     else SummernoteInplaceWidget
 
 
-class SummernoteInlineModelAdmin(admin.options.InlineModelAdmin):
+class SummernoteModelAdminMixin(object):
     summernote_fields = '__all__'
 
     def formfield_for_dbfield(self, db_field, **kwargs):
@@ -17,20 +18,16 @@ class SummernoteInlineModelAdmin(admin.options.InlineModelAdmin):
         else:
             if db_field.name in self.summernote_fields:
                 kwargs['widget'] = __widget__
-        return super(SummernoteInlineModelAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+
+        return super(SummernoteModelAdminMixin, self).formfield_for_dbfield(db_field, **kwargs)
 
 
-class SummernoteModelAdmin(admin.ModelAdmin):
-    summernote_fields = '__all__'
+class SummernoteInlineModelAdmin(SummernoteModelAdminMixin, InlineModelAdmin):
+    pass
 
-    def formfield_for_dbfield(self, db_field, **kwargs):
-        if self.summernote_fields == '__all__':
-            if isinstance(db_field, models.TextField):
-                kwargs['widget'] = __widget__
-        else:
-            if db_field.name in self.summernote_fields:
-                kwargs['widget'] = __widget__
-        return super(SummernoteModelAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+
+class SummernoteModelAdmin(SummernoteModelAdminMixin, admin.ModelAdmin):
+    pass
 
 
 class AttachmentAdmin(admin.ModelAdmin):
