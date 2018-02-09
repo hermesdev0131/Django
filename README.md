@@ -60,7 +60,7 @@ In `admin.py`,
 
     # Apply summernote to all TextField in model.
     class SomeModelAdmin(SummernoteModelAdmin):  # instead of ModelAdmin
-        summer_note_fields = '__all__'
+        summernote_fields = '__all__'
 
     admin.site.register(SomeModel, SomeModelAdmin)
 
@@ -73,7 +73,7 @@ In `admin.py`,
     from .models import Post
     
     class PostAdmin(SummernoteModelAdmin):
-        summer_note_fields = ('content',)
+        summernote_fields = ('content',)
     
     admin.site.register(Post, PostAdmin)
 
