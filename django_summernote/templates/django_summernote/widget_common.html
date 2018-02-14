@@ -123,6 +123,7 @@ function initSummernote_{{ id }}() {
             }
         });
 
+{% if not iframe %}
         // See https://docs.djangoproject.com/en/dev/ref/contrib/csrf/#ajax
         function getCookie(name) {
             var cookieValue = null;
@@ -139,6 +140,7 @@ function initSummernote_{{ id }}() {
             }
             return cookieValue;
         }
+{% endif %}
     });
 }
 {% if not lazy %}
