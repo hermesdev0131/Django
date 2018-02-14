@@ -36,6 +36,8 @@ __summernote_options__ = [
     'insertTableMaxSize',
     'lineHeights',
     'linkTargetBlank',
+    'minHeight',
+    'maxHeight',
     'maxTextLength',
     'placeholder',
     'popover',
