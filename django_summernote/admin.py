@@ -1,3 +1,4 @@
+import django
 from django.contrib import admin
 from django.contrib.admin.options import InlineModelAdmin
 from django.db import models
@@ -11,15 +12,26 @@ __widget__ = SummernoteWidget if summernote_config['iframe'] \
 class SummernoteModelAdminMixin(object):
     summernote_fields = '__all__'
 
-    def formfield_for_dbfield(self, db_field, **kwargs):
-        if self.summernote_fields == '__all__':
-            if isinstance(db_field, models.TextField):
-                kwargs['widget'] = __widget__
-        else:
-            if db_field.name in self.summernote_fields:
-                kwargs['widget'] = __widget__
+    if django.VERSION >= (1, 10):
+        def formfield_for_dbfield(self, db_field, request, **kwargs):
+            if self.summernote_fields == '__all__':
+                if isinstance(db_field, models.TextField):
+                    kwargs['widget'] = __widget__
+            else:
+                if db_field.name in self.summernote_fields:
+                    kwargs['widget'] = __widget__
 
-        return super(SummernoteModelAdminMixin, self).formfield_for_dbfield(db_field, **kwargs)
+            return super(SummernoteModelAdminMixin, self).formfield_for_dbfield(db_field, request, **kwargs)
+    else:
+        def formfield_for_dbfield(self, db_field, **kwargs):
+            if self.summernote_fields == '__all__':
+                if isinstance(db_field, models.TextField):
+                    kwargs['widget'] = __widget__
+            else:
+                if db_field.name in self.summernote_fields:
+                    kwargs['widget'] = __widget__
+
+            return super(SummernoteModelAdminMixin, self).formfield_for_dbfield(db_field, **kwargs)
 
 
 class SummernoteInlineModelAdmin(SummernoteModelAdminMixin, InlineModelAdmin):
