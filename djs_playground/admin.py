@@ -2,11 +2,21 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from django_summernote.admin import SummernoteModelAdmin
-from .models import Post
+from django_summernote.admin import SummernoteModelAdmin, SummernoteModelAdminMixin
+from .models import Post, Book, Author
 
 
 class PostAdmin(SummernoteModelAdmin):
     pass
 
 admin.site.register(Post, PostAdmin)
+
+class BookInline(SummernoteModelAdminMixin, admin.StackedInline):
+    model = Book
+
+class AuthorAdmin(SummernoteModelAdminMixin, admin.ModelAdmin):
+    model = Author
+    inlines = [
+        BookInline,
+    ]
+admin.site.register(Author, AuthorAdmin)
