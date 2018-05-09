@@ -209,7 +209,7 @@ Or, you can styling editor via attributes of the widget. These adhoc styling wil
 
     # Apply adhoc style via attributes
     class SomeForm(forms.Form):
-        foo = forms.CharField(widget=SummernoteWidget(attrs={'width': '50%', 'height': '400px'}))
+        foo = forms.CharField(widget=SummernoteWidget(attrs={'summernote': {'width': '50%', 'height': '400px'}}))
 
 You can also pass additional parameters to custom `Attachment` model by adding attributes to SummernoteWidget or SummernoteInplaceWidget, any attribute starting with `data-` will be pass to the `save(...)` method of custom `Attachment` model as `**kwargs`.
 
