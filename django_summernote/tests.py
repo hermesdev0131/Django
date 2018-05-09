@@ -307,6 +307,19 @@ class DjangoSummernoteTest(TestCase):
         from django_summernote.admin import SummernoteInlineModelAdmin
         from django_summernote.widgets import SummernoteWidget
 
+        class SimpleModel(models.Model):
+            foobar = models.TextField()
+
+        class SimpleModelAdmin(SummernoteModelAdmin):
+            pass
+
+        ma = SimpleModelAdmin(SimpleModel, self.site)
+
+        assert isinstance(
+            ma.get_form(None).base_fields['foobar'].widget,
+            SummernoteWidget
+        )
+
         class SimpleParentModel(models.Model):
             foobar = models.TextField()
 
@@ -324,6 +337,48 @@ class DjangoSummernoteTest(TestCase):
 
         assert isinstance(
             ma.get_form(None).base_fields['foobar'].widget,
+            SummernoteWidget
+        )
+
+    def test_admin_model_inplace(self):
+        from django.db import models
+        from django_summernote.admin import SummernoteModelAdmin
+        from django_summernote.widgets import SummernoteInplaceWidget
+
+        class SimpleModel3(models.Model):
+            foobar = models.TextField()
+
+        # Same as iframe = False
+        class SimpleModelAdmin(SummernoteModelAdmin):
+            summernote_widget = SummernoteInplaceWidget
+
+        ma = SimpleModelAdmin(SimpleModel3, self.site)
+
+        assert isinstance(
+            ma.get_form(None).base_fields['foobar'].widget,
+            SummernoteInplaceWidget
+        )
+
+    def test_admin_summernote_fields(self):
+        from django.db import models
+        from django_summernote.admin import SummernoteModelAdmin
+        from django_summernote.widgets import SummernoteWidget
+
+        class SimpleModel4(models.Model):
+            foo = models.TextField()
+            bar = models.TextField()
+
+        class SimpleModelAdmin(SummernoteModelAdmin):
+            summernote_fields = ('foo',)
+
+        ma = SimpleModelAdmin(SimpleModel4, self.site)
+
+        assert isinstance(
+            ma.get_form(None).base_fields['foo'].widget,
+            SummernoteWidget
+        )
+        assert not isinstance(
+            ma.get_form(None).base_fields['bar'].widget,
             SummernoteWidget
         )
 
