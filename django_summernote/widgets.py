@@ -43,7 +43,7 @@ class SummernoteWidgetBase(forms.Textarea):
 class SummernoteWidget(SummernoteWidgetBase):
     def render(self, name, value, attrs=None, **kwargs):
         summernote_settings = self.summernote_settings()
-        summernote_settings.update(self.attrs.pop('summernote', {}))
+        summernote_settings.update(self.attrs.get('summernote', {}))
 
         attrs_for_textarea = attrs.copy()
         attrs_for_textarea['hidden'] = 'true'
@@ -92,7 +92,7 @@ class SummernoteInplaceWidget(SummernoteWidgetBase):
     @using_config
     def render(self, name, value, attrs=None, **kwargs):
         summernote_settings = self.summernote_settings()
-        summernote_settings.update(self.attrs.pop('summernote', {}))
+        summernote_settings.update(self.attrs.get('summernote', {}))
 
         attrs_for_textarea = attrs.copy()
         attrs_for_textarea['hidden'] = 'true'
