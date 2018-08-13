@@ -81,15 +81,15 @@ class SummernoteInplaceWidget(SummernoteWidgetBase):
     class Media:
         css = {
             'all': (
+                summernote_config['css_for_inplace'] +
                 (summernote_config['codemirror_css'] if 'codemirror' in summernote_config else ()) +
-                summernote_config['default_css'] +
-                summernote_config['css_for_inplace']
+                summernote_config['default_css']
             )
         }
         js = (
+            summernote_config['js_for_inplace'] +
             (summernote_config['codemirror_js'] if 'codemirror' in summernote_config else ()) +
-            summernote_config['default_js'] +
-            summernote_config['js_for_inplace']
+            summernote_config['default_js']
         )
 
     def render(self, name, value, attrs=None, renderer=None):
