@@ -106,11 +106,7 @@ function initSummernote_{{ id }}() {
         };
 
         // include summernote language pack, synchronously
-        if( settings.lang != 'en-US' ) {
-            $.ajax({url: settings.url.language, dataType: "script", complete: initEditor})
-        } else {
-            initEditor();
-        }
+        $.ajax({url: settings.url.language, dataType: "script", complete: initEditor})
 
         // For CodeMirror
         $sn.on('summernote.codeview.toggled', function() {
