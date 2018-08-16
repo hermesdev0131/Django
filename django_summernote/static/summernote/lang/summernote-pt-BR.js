@@ -1,4 +1,4 @@
-(function ($) {
+(function($) {
   $.extend($.summernote.lang, {
     'pt-BR': {
       font: {
@@ -9,6 +9,8 @@
         height: 'Altura da linha',
         name: 'Fonte',
         strikethrough: 'Riscado',
+        subscript: 'Subscrito',
+        superscript: 'Sobrescrito',
         size: 'Tamanho da fonte'
       },
       image: {
@@ -16,13 +18,22 @@
         insert: 'Inserir imagem',
         resizeFull: 'Redimensionar Completamente',
         resizeHalf: 'Redimensionar pela Metade',
-        resizeQuarter: 'Redimensionar um Quarto',
+        resizeQuarter: 'Redimensionar a um Quarto',
         floatLeft: 'Flutuar para Esquerda',
-        floatRight: 'Flutuar para Direira',
+        floatRight: 'Flutuar para Direita',
         floatNone: 'Não Flutuar',
-        dragImageHere: 'Arraste uma imagem para cá',
+        shapeRounded: 'Forma: Arredondado',
+        shapeCircle: 'Forma: Círculo',
+        shapeThumbnail: 'Forma: Miniatura',
+        shapeNone: 'Forma: Nenhum',
+        dragImageHere: 'Arraste Imagem ou Texto para cá',
+        dropImage: 'Solte Imagem ou Texto',
         selectFromFiles: 'Selecione a partir dos arquivos',
-        url: 'URL da imagem'
+        maximumFileSize: 'Tamanho máximo do arquivo',
+        maximumFileSizeError: 'Tamanho máximo do arquivo excedido.',
+        url: 'URL da imagem',
+        remove: 'Remover Imagem',
+        original: 'Original'
       },
       video: {
         video: 'Vídeo',
@@ -37,20 +48,21 @@
         unlink: 'Remover link',
         edit: 'Editar',
         textToDisplay: 'Texto para exibir',
-        url: 'Para qual URL esse link leva?',
+        url: 'Para qual URL este link leva?',
         openInNewWindow: 'Abrir em uma nova janela'
       },
       table: {
         table: 'Tabela',
         addRowAbove: 'Adicionar linha acima',
         addRowBelow: 'Adicionar linha abaixo',
-        addColLeft: 'Adicionar coluna a esquerda',
-        addColRight: 'Adicionar coluna a direita',
+        addColLeft: 'Adicionar coluna à esquerda',
+        addColRight: 'Adicionar coluna à direita',
         delRow: 'Excluir linha',
-        delCol: 'Excluir coluna'
+        delCol: 'Excluir coluna',
+        delTable: 'Excluir tabela'
       },
       hr: {
-        insert: 'Inserir linha horizontal'
+        insert: 'Linha horizontal'
       },
       style: {
         style: 'Estilo',
@@ -98,11 +110,8 @@
         textFormatting: 'Formatação de texto',
         action: 'Ação',
         paragraphFormatting: 'Formatação de parágrafo',
-        documentStyle: 'Estilo de documento'
-      },
-      history: {
-        undo: 'Desfazer',
-        redo: 'Refazer'
+        documentStyle: 'Estilo de documento',
+        extraKeys: 'Extra keys'
       },
       help: {
         'insertParagraph': 'Inserir Parágrafo',
@@ -130,8 +139,16 @@
         'formatH4': 'Alterar formato do bloco para H4',
         'formatH5': 'Alterar formato do bloco para H5',
         'formatH6': 'Alterar formato do bloco para H6',
-        'insertHorizontalRule': 'Inserir régua horizontal',
+        'insertHorizontalRule': 'Inserir Régua horizontal',
         'linkDialog.show': 'Inserir um Hiperlink'
+      },
+      history: {
+        undo: 'Desfazer',
+        redo: 'Refazer'
+      },
+      specialChar: {
+        specialChar: 'CARACTERES ESPECIAIS',
+        select: 'Selecionar Caracteres Especiais'
       }
     }
   });

@@ -75,6 +75,7 @@ LANG_TO_LOCALE = {
     'tr': 'tr-TR',
     'uk': 'uk-UA',
     'vi': 'vi-VN',
+    'uz': 'uz-UZ',
     'zh': 'zh-CN',
 }
 
