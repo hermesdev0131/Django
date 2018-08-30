@@ -2,6 +2,7 @@
 from django import forms
 from django.shortcuts import render
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
+from .settings import SUMMERNOTE_CONFIG
 
 
 class SampleForm(forms.Form):
@@ -20,4 +21,5 @@ def index(request):
         'desc1': request.POST.get('desc1'),
         'desc2': request.POST.get('desc2'),
         'form': SampleForm(),
+        'theme': SUMMERNOTE_CONFIG['theme'],
     })

@@ -75,12 +75,77 @@ LANG_TO_LOCALE = {
     'th': 'th-TH',
     'tr': 'tr-TR',
     'uk': 'uk-UA',
-    'vi': 'vi-VN',
     'uz': 'uz-UZ',
+    'vi': 'vi-VN',
     'zh': 'zh-CN',
 }
 
-SETTINGS_USER = getattr(settings, 'SUMMERNOTE_CONFIG', {})
+SUMMERNOTE_THEME_FILES = {
+    'base_css': {
+        'bs3': (
+            '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
+        ),
+        'bs4': (
+            '//stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css',
+        ),
+        'lite': (
+        ),
+    },
+    'base_js': {
+        'bs3': (
+            '//code.jquery.com/jquery-3.3.1.min.js',
+            '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',
+        ),
+        'bs4': (
+            '//code.jquery.com/jquery-3.3.1.min.js',
+            '//stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js',
+        ),
+        'lite': (
+            '//code.jquery.com/jquery-3.3.1.min.js',
+        ),
+    },
+    'default_css': {
+        'bs3': (
+            'summernote/summernote.css',
+            'summernote/django_summernote.css',
+        ),
+        'bs4': (
+            'summernote/summernote-bs4.css',
+            'summernote/django_summernote.css',
+        ),
+        'lite': (
+            'summernote/summernote-lite.css',
+            'summernote/django_summernote.css',
+        ),
+    },
+    'default_js': {
+        'bs3': (
+            'summernote/jquery.ui.widget.js',
+            'summernote/jquery.iframe-transport.js',
+            'summernote/jquery.fileupload.js',
+            'summernote/summernote.min.js',
+            'summernote/ResizeSensor.js',
+        ),
+        'bs4': (
+            'summernote/jquery.ui.widget.js',
+            'summernote/jquery.iframe-transport.js',
+            'summernote/jquery.fileupload.js',
+            'summernote/summernote-bs4.min.js',
+            'summernote/ResizeSensor.js',
+        ),
+        'lite': (
+            'summernote/jquery.ui.widget.js',
+            'summernote/jquery.iframe-transport.js',
+            'summernote/jquery.fileupload.js',
+            'summernote/summernote-lite.min.js',
+            'summernote/ResizeSensor.js',
+        ),
+    },
+}
+SETTINGS_USER = {
+    'theme': 'bs3',
+}
+SETTINGS_USER.update(getattr(settings, 'SUMMERNOTE_CONFIG', {}))
 SETTINGS_DEFAULT = {
     # Using SummernoteWidget(iframe widget) for admin pages by default
     'iframe': True,
@@ -103,36 +168,22 @@ SETTINGS_DEFAULT = {
     'jquery': '$',
 
     # Base media files only for SummernoteWidget
-    'base_css': (
-        '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
-    ),
-    'base_js': (
-        '//code.jquery.com/jquery-3.2.1.min.js',
-        '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',
-    ),
+    'base_css': SUMMERNOTE_THEME_FILES['base_css'][SETTINGS_USER['theme']],
+    'base_js': SUMMERNOTE_THEME_FILES['base_js'][SETTINGS_USER['theme']],
 
     # Media files for CodeMirror
     'codemirror_css': (
-        '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/codemirror.min.css',
+        '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.40.0/codemirror.min.css',
     ),
     'codemirror_js': (
-        '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/codemirror.min.js',
-        '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/mode/xml/xml.min.js',
-        '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/mode/htmlmixed/htmlmixed.min.js',
+        '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.40.0/codemirror.js',
+        '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.40.0/mode/xml/xml.js',
+        '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.40.0/mode/htmlmixed/htmlmixed.js',
     ),
 
     # Media files for all Summernote widgets
-    'default_css': (
-        'summernote/summernote.css',
-        'summernote/django_summernote.css',
-    ),
-    'default_js': (
-        'summernote/jquery.ui.widget.js',
-        'summernote/jquery.iframe-transport.js',
-        'summernote/jquery.fileupload.js',
-        'summernote/summernote.min.js',
-        'summernote/ResizeSensor.js',
-    ),
+    'default_css': SUMMERNOTE_THEME_FILES['default_css'][SETTINGS_USER['theme']],
+    'default_js': SUMMERNOTE_THEME_FILES['default_js'][SETTINGS_USER['theme']],
 
     # Additional media files only for SummernoteWidget
     'css': (),
