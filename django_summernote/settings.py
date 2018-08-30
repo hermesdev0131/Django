@@ -46,6 +46,7 @@ LANG_TO_LOCALE = {
     'da': 'da-DK',
     'de': 'de-DE',
     'el': 'el-GR',
+    'en': 'en-US',
     'es': 'es-ES',
     'fa': 'fa-IR',
     'fi': 'fi-FI',
