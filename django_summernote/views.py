@@ -1,10 +1,11 @@
 import django
+from django.apps import apps
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView
-from django_summernote.settings import summernote_config, get_attachment_model
+from django_summernote.utils import get_attachment_model
 if django.VERSION <= (1, 9):
     from django.views.generic import View
 else:
@@ -17,29 +18,32 @@ class SummernoteEditor(TemplateView):
     def __init__(self):
         super(SummernoteEditor, self).__init__()
 
-        static_default_css = tuple(static(x) for x in summernote_config['default_css'])
-        static_default_js = tuple(static(x) for x in summernote_config['default_js'])
+        config = apps.get_app_config('django_summernote').config
+
+        static_default_css = tuple(static(x) for x in config['default_css'])
+        static_default_js = tuple(static(x) for x in config['default_js'])
 
         self.css = \
-            summernote_config['base_css'] \
-            + summernote_config['css'] \
-            + (summernote_config['codemirror_css'] if 'codemirror' in summernote_config else ()) \
+            config['base_css'] \
+            + config['css'] \
+            + (config['codemirror_css'] if 'codemirror' in config else ()) \
             + static_default_css
 
         self.js = \
-            summernote_config['base_js'] \
-            + summernote_config['js'] \
-            + (summernote_config['codemirror_js'] if 'codemirror' in summernote_config else ()) \
+            config['base_js'] \
+            + config['js'] \
+            + (config['codemirror_js'] if 'codemirror' in config else ()) \
             + static_default_js
 
     def get_context_data(self, **kwargs):
         context = super(SummernoteEditor, self).get_context_data(**kwargs)
+        config = apps.get_app_config('django_summernote').config
 
         context['id_src'] = self.kwargs['id']
         context['id'] = self.kwargs['id'].replace('-', '_')
         context['css'] = self.css
         context['js'] = self.js
-        context['config'] = summernote_config
+        context['config'] = config
 
         return context
 
@@ -58,8 +62,9 @@ class SummernoteUploadAttachment(View):
         authenticated = \
             request.user.is_authenticated if django.VERSION >= (1, 10) \
             else request.user.is_authenticated()
+        config = apps.get_app_config('django_summernote').config
 
-        if summernote_config['attachment_require_authentication'] and \
+        if config['attachment_require_authentication'] and \
                 not authenticated:
             return JsonResponse({
                 'status': 'false',
@@ -88,7 +93,7 @@ class SummernoteUploadAttachment(View):
                 attachment.file = file
                 attachment.name = file.name
 
-                if file.size > summernote_config['attachment_filesize_limit']:
+                if file.size > config['attachment_filesize_limit']:
                     return JsonResponse({
                         'status': 'false',
                         'message': _('File size exceeds the limit allowed and cannot be saved'),
