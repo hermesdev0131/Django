@@ -55,6 +55,7 @@ USAGE
 ### Apply summernote to all TextField in model
 In `admin.py`,
 
+```python
     from django_summernote.admin import SummernoteModelAdmin
     from .models import SomeModel
 
@@ -63,48 +64,71 @@ In `admin.py`,
         summernote_fields = '__all__'
 
     admin.site.register(SomeModel, SomeModelAdmin)
+```
 
 ### Apply summernote to not all TextField in model
 Although `Post` model has several TextField, only `content` field will have `SummernoteWidget`.
 
 In `admin.py`,
 
-    from django_summernote.admin import SummernoteModelAdmin
-    from .models import Post
-    
-    class PostAdmin(SummernoteModelAdmin):
-        summernote_fields = ('content',)
-    
-    admin.site.register(Post, PostAdmin)
+```python
+from django_summernote.admin import SummernoteModelAdmin
+from .models import Post
+
+class PostAdmin(SummernoteModelAdmin):
+    summernote_fields = ('content',)
+
+admin.site.register(Post, PostAdmin)
+```
 
 ## Form
 In `forms`,
 
-    from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
+```python
+from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
-    # Apply summernote to specific fields.
-    class SomeForm(forms.Form):
-        foo = forms.CharField(widget=SummernoteWidget())  # instead of forms.Textarea
+# Apply summernote to specific fields.
+class SomeForm(forms.Form):
+    foo = forms.CharField(widget=SummernoteWidget())  # instead of forms.Textarea
 
-    # If you don't like <iframe>, then use inplace widget
-    # Or if you're using django-crispy-forms, please use this.
-    class AnotherForm(forms.Form):
-        bar = forms.CharField(widget=SummernoteInplaceWidget())
+# If you don't like <iframe>, then use inplace widget
+# Or if you're using django-crispy-forms, please use this.
+class AnotherForm(forms.Form):
+    bar = forms.CharField(widget=SummernoteInplaceWidget())
+```
 
 And for `ModelForm`,
 
-    class FormFromSomeModel(forms.ModelForm):
-        class Meta:
-            model = SomeModel
-            widgets = {
-                'foo': SummernoteWidget(),
-                'bar': SummernoteInplaceWidget(),
-            }
+```python
+class FormFromSomeModel(forms.ModelForm):
+    class Meta:
+        model = SomeModel
+        widgets = {
+            'foo': SummernoteWidget(),
+            'bar': SummernoteInplaceWidget(),
+        }
+```
 
 Last, please don't forget to use `safe` templatetag while displaying in templates.
 
     {{ foobar|safe }}
 
+
+THEMES
+------
+
+django-summernote is served with Bootstrap3 by default, but you can choose another options.
+You can change the theme by `SUMMERNOTE_THEME = '<theme_name>'` in `settings.py`.
+
+ - Bootstrap3 (`bs3`)
+ - Bootstrap4 (`bs4`)
+ - Lite UI (Summernote standalone) (`lite`)
+
+In settings.py
+
+```python
+SUMMERNOTE_THEME = 'bs4'  # Show summernote with Bootstrap4
+```
 
 OPTIONS
 -------
@@ -114,90 +138,92 @@ Put `SUMMERNOTE_CONFIG` into your settings file.
 
 In settings.py,
 
-    SUMMERNOTE_CONFIG = {
-        # Using SummernoteWidget - iframe mode, default
-        'iframe': True,
+```python
+SUMMERNOTE_CONFIG = {
+    # Using SummernoteWidget - iframe mode, default
+    'iframe': True,
 
-        # Or, you can set it as False to use SummernoteInplaceWidget by default - no iframe mode
-        # In this case, you have to load Bootstrap/jQuery stuff by manually.
-        # Use this when you're already using Bootstraip/jQuery based themes.
-        'iframe': False,
+    # Or, you can set it as False to use SummernoteInplaceWidget by default - no iframe mode
+    # In this case, you have to load Bootstrap/jQuery stuff by manually.
+    # Use this when you're already using Bootstraip/jQuery based themes.
+    'iframe': False,
 
-        # You can put custom Summernote settings
-        'summernote': {
-            # As an example, using Summernote Air-mode
-            'airMode': False,
+    # You can put custom Summernote settings
+    'summernote': {
+        # As an example, using Summernote Air-mode
+        'airMode': False,
 
-            # Change editor size
-            'width': '100%',
-            'height': '480',
+        # Change editor size
+        'width': '100%',
+        'height': '480',
 
-            # Use proper language setting automatically (default)
-            'lang': None,
+        # Use proper language setting automatically (default)
+        'lang': None,
 
-            # Or, set editor language/locale forcely
-            'lang': 'ko-KR',
-            ...
+        # Or, set editor language/locale forcely
+        'lang': 'ko-KR',
+        ...
 
-            # You can also add custom settings for external plugins
-            'print': {
-                'stylesheetUrl': '/some_static_folder/printable.css',
-            },
+        # You can also add custom settings for external plugins
+        'print': {
+            'stylesheetUrl': '/some_static_folder/printable.css',
         },
+    },
 
-        # Need authentication while uploading attachments.
-        'attachment_require_authentication': True,
+    # Need authentication while uploading attachments.
+    'attachment_require_authentication': True,
 
-        # Set `upload_to` function for attachments.
-        'attachment_upload_to': my_custom_upload_to_func(),
+    # Set `upload_to` function for attachments.
+    'attachment_upload_to': my_custom_upload_to_func(),
 
-        # Set custom storage class for attachments.
-        'attachment_storage_class': 'my.custom.storage.class.name',
+    # Set custom storage class for attachments.
+    'attachment_storage_class': 'my.custom.storage.class.name',
 
-        # Set custom model for attachments (default: 'django_summernote.Attachment')
-        'attachment_model': 'my.custom.attachment.model', # must inherit 'django_summernote.AbstractAttachment'
+    # Set custom model for attachments (default: 'django_summernote.Attachment')
+    'attachment_model': 'my.custom.attachment.model', # must inherit 'django_summernote.AbstractAttachment'
 
-        # You can disable attachment feature.
-        'disable_attachment': False,
+    # You can disable attachment feature.
+    'disable_attachment': False,
 
-        # You can add custom css/js for SummernoteWidget.
-        'css': (
-        ),
-        'js': (
-        ),
+    # You can add custom css/js for SummernoteWidget.
+    'css': (
+    ),
+    'js': (
+    ),
 
-        # You can also add custom css/js for SummernoteInplaceWidget.
-        # !!! Be sure to put {{ form.media }} in template before initiate summernote.
-        'css_for_inplace': (
-        ),
-        'js_for_inplace': (
-        ),
+    # You can also add custom css/js for SummernoteInplaceWidget.
+    # !!! Be sure to put {{ form.media }} in template before initiate summernote.
+    'css_for_inplace': (
+    ),
+    'js_for_inplace': (
+    ),
 
-        # Codemirror as codeview
-        # If any codemirror settings are defined, it will include codemirror files automatically.
-        'css': {
-            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/theme/monokai.min.css',
-        },
-        'codemirror': {
-            'mode': 'htmlmixed',
-            'lineNumbers': 'true',
+    # Codemirror as codeview
+    # If any codemirror settings are defined, it will include codemirror files automatically.
+    'css': {
+        '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/theme/monokai.min.css',
+    },
+    'codemirror': {
+        'mode': 'htmlmixed',
+        'lineNumbers': 'true',
 
-            # You have to include theme file in 'css' or 'css_for_inplace' before using it.
-            'theme': 'monokai',
-        },
+        # You have to include theme file in 'css' or 'css_for_inplace' before using it.
+        'theme': 'monokai',
+    },
 
-        # Lazy initialize
-        # If you want to initialize summernote at the bottom of page, set this as True
-        # and call `initSummernote()` on your page.
-        'lazy': True,
+    # Lazy initialize
+    # If you want to initialize summernote at the bottom of page, set this as True
+    # and call `initSummernote()` on your page.
+    'lazy': True,
 
-        # To use external plugins,
-        # Include them within `css` and `js`.
-        'js': {
-            '/some_static_folder/summernote-ext-print.js',
-            '//somewhere_in_internet/summernote-plugin-name.js',
-        },
-    }
+    # To use external plugins,
+    # Include them within `css` and `js`.
+    'js': {
+        '/some_static_folder/summernote-ext-print.js',
+        '//somewhere_in_internet/summernote-plugin-name.js',
+    },
+}
+```
 
   - There are pre-defined css/js files for widgets.
     - See them at [summernote default settings](https://github.com/summernote/django-summernote/blob/master/django_summernote/settings.py#L106-L133)
@@ -207,15 +233,19 @@ In settings.py,
 
 Or, you can styling editor via attributes of the widget. These adhoc styling will override settings from `SUMMERNOTE_CONFIG`.
 
-    # Apply adhoc style via attributes
-    class SomeForm(forms.Form):
-        foo = forms.CharField(widget=SummernoteWidget(attrs={'summernote': {'width': '50%', 'height': '400px'}}))
+```python
+# Apply adhoc style via attributes
+class SomeForm(forms.Form):
+    foo = forms.CharField(widget=SummernoteWidget(attrs={'summernote': {'width': '50%', 'height': '400px'}}))
+```
 
 You can also pass additional parameters to custom `Attachment` model by adding attributes to SummernoteWidget or SummernoteInplaceWidget, any attribute starting with `data-` will be pass to the `save(...)` method of custom `Attachment` model as `**kwargs`.
 
-    # Pass additional parameters to Attachment via attributes
-    class SomeForm(forms.Form):
-        foo = forms.CharField(widget=SummernoteWidget(attrs={'data-user-id': 123456, 'data-device': 'iphone'}))
+```python
+# Pass additional parameters to Attachment via attributes
+class SomeForm(forms.Form):
+    foo = forms.CharField(widget=SummernoteWidget(attrs={'data-user-id': 123456, 'data-device': 'iphone'}))
+```
 
 LIMITATIONS
 -----------
