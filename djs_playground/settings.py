@@ -121,8 +121,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'djs_playground/static/')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'djs_playground/media/')
 
+SUMMERNOTE_THEME = 'bs4'
 SUMMERNOTE_CONFIG = {
-    'theme': 'bs4',  # bs3, bs4, lite
     'summernote': {
         'width': '100%',
         'height': '200px',

@@ -14,7 +14,7 @@ class DjangoSummernoteConfig(AppConfig):
 
     def __init__(self, app_name, app_module):
         super(DjangoSummernoteConfig, self).__init__(app_name, app_module)
-        self.merge_config()
+        self.update_config()
 
     def get_default_config(self):
         return {
@@ -39,8 +39,8 @@ class DjangoSummernoteConfig(AppConfig):
             'jquery': '$',
 
             # Base media files only for SummernoteWidget
-            'base_css': get_theme_files(self.theme, 'base_css'),
-            'base_js': get_theme_files(self.theme, 'base_js'),
+            'base_css': '',
+            'base_js': '',
 
             # Media files for CodeMirror
             'codemirror_css': (
@@ -53,8 +53,8 @@ class DjangoSummernoteConfig(AppConfig):
             ),
 
             # Media files for all Summernote widgets
-            'default_css': get_theme_files(self.theme, 'default_css'),
-            'default_js': get_theme_files(self.theme, 'default_js'),
+            'default_css': '',
+            'default_js': '',
 
             # Additional media files only for SummernoteWidget
             'css': (),
@@ -106,10 +106,14 @@ class DjangoSummernoteConfig(AppConfig):
             if not self.config['summernote'].get(key):
                 self.config['summernote'][key] = default['summernote'].get(key)
 
-    def merge_config(self):
-        DEFAULT_CONFIG = self.get_default_config()
-        CONFIG = getattr(django_settings, 'SUMMERNOTE_CONFIG', {})
+    def update_config(self):
         self.theme = getattr(django_settings, 'SUMMERNOTE_THEME', 'bs3')
+        DEFAULT_CONFIG = self.get_default_config()
+
+        CONFIG = getattr(django_settings, 'SUMMERNOTE_CONFIG', {})
+        for key in ('base_css', 'base_js', 'default_css', 'default_js'):
+            CONFIG[key] = get_theme_files(self.theme, key)
+
         self.config = DEFAULT_CONFIG.copy()
         self.config.update(CONFIG)
         self._copy_old_configs(CONFIG, DEFAULT_CONFIG)

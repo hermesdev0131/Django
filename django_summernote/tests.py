@@ -19,8 +19,10 @@ class DjangoSummernoteTest(TestCase):
         self.username = 'lqez'
         self.password = 'ohmygoddess'
         self.site = AdminSite()
-        self.config = apps.get_app_config('django_summernote')
-        self.summernote_config = self.config.config
+
+        self.app_config = apps.get_app_config('django_summernote')
+        self.app_config.update_config()
+        self.summernote_config = self.app_config.config
 
     def test_base(self):
         self.assertTrue(True)
@@ -457,7 +459,7 @@ class DjangoSummernoteTest(TestCase):
                 ['font', ['bold']],
             ],
         }
-        self.config._copy_old_configs(OLD_STYLE_CONFIG, self.config.get_default_config())
+        self.app_config._copy_old_configs(OLD_STYLE_CONFIG, self.app_config.get_default_config())
 
         widget = SummernoteInplaceWidget()
         html = widget.render(
@@ -486,16 +488,15 @@ class DjangoSummernoteTest(TestCase):
 
         assert SUMMERNOTE_THEME_FILES['bs3']['base_css'][0] in html
 
+    @override_settings(SUMMERNOTE_THEME='bs4')
     def test_theme_bootstrap4(self):
         from django_summernote.utils import SUMMERNOTE_THEME_FILES
-        self.config.theme = 'bs4'
-        self.config.merge_config()
+
+        # Force update summernote config to reset theme files
+        self.app_config.update_config()
 
         url = reverse('django_summernote-editor', kwargs={'id': 'id_foobar'})
         response = self.client.get(url)
         html = response.content.decode('utf-8')
 
         assert SUMMERNOTE_THEME_FILES['bs4']['base_css'][0] in html
-
-        self.config.theme = 'bs3'
-        self.config.merge_config()

@@ -5,7 +5,7 @@ from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView
-from django_summernote.utils import get_attachment_model
+from django_summernote.utils import get_attachment_model, using_config
 if django.VERSION <= (1, 9):
     from django.views.generic import View
 else:
@@ -15,10 +15,9 @@ else:
 class SummernoteEditor(TemplateView):
     template_name = 'django_summernote/widget_iframe_editor.html'
 
+    @using_config
     def __init__(self):
         super(SummernoteEditor, self).__init__()
-
-        config = apps.get_app_config('django_summernote').config
 
         static_default_css = tuple(static(x) for x in config['default_css'])
         static_default_js = tuple(static(x) for x in config['default_js'])
@@ -35,9 +34,9 @@ class SummernoteEditor(TemplateView):
             + (config['codemirror_js'] if 'codemirror' in config else ()) \
             + static_default_js
 
+    @using_config
     def get_context_data(self, **kwargs):
         context = super(SummernoteEditor, self).get_context_data(**kwargs)
-        config = apps.get_app_config('django_summernote').config
 
         context['id_src'] = self.kwargs['id']
         context['id'] = self.kwargs['id'].replace('-', '_')
@@ -58,11 +57,11 @@ class SummernoteUploadAttachment(View):
             'message': _('Only POST method is allowed'),
         }, status=400)
 
+    @using_config
     def post(self, request, *args, **kwargs):
         authenticated = \
             request.user.is_authenticated if django.VERSION >= (1, 10) \
             else request.user.is_authenticated()
-        config = apps.get_app_config('django_summernote').config
 
         if config['attachment_require_authentication'] and \
                 not authenticated:

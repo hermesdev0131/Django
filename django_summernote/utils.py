@@ -5,9 +5,11 @@ from django.apps import apps
 from django.core.exceptions import ImproperlyConfigured
 from django.core.files.storage import default_storage
 from django.utils.translation import get_language
+from functools import wraps
 from importlib import import_module
 
 
+# A conversion table from language to locale
 LANG_TO_LOCALE = {
     'ar': 'ar-AR',
     'bg': 'bg-BG',
@@ -50,6 +52,7 @@ LANG_TO_LOCALE = {
     'zh': 'zh-CN',
 }
 
+# Theme files dictionary
 SUMMERNOTE_THEME_FILES = {
     'bs3': {
         'base_css': (
@@ -111,6 +114,38 @@ SUMMERNOTE_THEME_FILES = {
 }
 
 
+def using_config(_func=None):
+    """
+    This allows a function to use Summernote configuration
+    as a global variable, temporarily.
+    """
+    def decorator(func):
+        @wraps(func)
+        def inner_dec(*args, **kwargs):
+            g = func.__globals__
+            var_name = 'config'
+            sentinel = object()
+
+            oldvalue = g.get(var_name, sentinel)
+            g[var_name] = apps.get_app_config('django_summernote').config
+
+            try:
+                res = func(*args, **kwargs)
+            finally:
+                if oldvalue is sentinel:
+                    del g[var_name]
+                else:
+                    g[var_name] = oldvalue
+
+            return res
+        return inner_dec
+
+    if _func is None:
+        return decorator
+    else:
+        return decorator(_func)
+
+
 def uploaded_filepath(instance, filename):
     """
     Returns default filepath for uploaded files.
@@ -128,11 +163,11 @@ def get_theme_files(theme, part):
     return SUMMERNOTE_THEME_FILES[theme][part]
 
 
+@using_config
 def get_proper_language():
     """
     Return the proper language by get_language()
     """
-    config = apps.get_app_config('django_summernote').config
     lang = config['summernote'].get('lang')
 
     if not lang:
@@ -141,11 +176,11 @@ def get_proper_language():
     return lang
 
 
+@using_config
 def get_attachment_model():
     """
     Returns the Attachment model that is active in this project.
     """
-    config = apps.get_app_config('django_summernote').config
 
     try:
         from .models import AbstractAttachment
@@ -164,11 +199,15 @@ def get_attachment_model():
         )
 
 
+@using_config
 def get_attachment_upload_to():
-    config = apps.get_app_config('django_summernote').config
+    """
+    Return 'attachment_upload_to' from configuration
+    """
     return config['attachment_upload_to']
 
 
+@using_config
 def get_attachment_storage():
     # module importer code comes from
     # https://github.com/django-debug-toolbar/django-debug-toolbar/

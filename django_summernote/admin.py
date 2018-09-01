@@ -2,15 +2,15 @@ from django.apps import apps
 from django.contrib import admin
 from django.contrib.admin.options import InlineModelAdmin
 from django.db import models
-from django_summernote.utils import get_attachment_model
+from django_summernote.utils import get_attachment_model, using_config
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
 
 class SummernoteModelAdminMixin(object):
     summernote_fields = '__all__'
 
+    @using_config
     def formfield_for_dbfield(self, db_field, *args, **kwargs):
-        config = apps.get_app_config('django_summernote').config
         summernote_widget = SummernoteWidget if config['iframe'] else SummernoteInplaceWidget
 
         if self.summernote_fields == '__all__':

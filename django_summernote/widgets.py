@@ -6,7 +6,7 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.forms.utils import flatatt
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
-from django_summernote.utils import get_proper_language
+from django_summernote.utils import get_proper_language, using_config
 try:
     from django.urls import reverse  # Django >= 2.0
 except ImportError:
@@ -16,9 +16,9 @@ __all__ = ['SummernoteWidget', 'SummernoteInplaceWidget']
 
 
 class SummernoteWidgetBase(forms.Textarea):
+    @using_config
     def summernote_settings(self):
         lang = get_proper_language()
-        config = apps.get_app_config('django_summernote').config
 
         summernote_settings = config.get('summernote', {}).copy()
         summernote_settings.update({
@@ -30,10 +30,10 @@ class SummernoteWidgetBase(forms.Textarea):
         })
         return summernote_settings
 
+    @using_config
     def value_from_datadict(self, data, files, name):
         value = data.get(name, None)
 
-        config = apps.get_app_config('django_summernote').config
         if value in config['empty']:
             return None
 
@@ -71,8 +71,8 @@ class SummernoteWidget(SummernoteWidgetBase):
 
 
 class SummernoteInplaceWidget(SummernoteWidgetBase):
+    @using_config
     def _media(self):
-        config = apps.get_app_config('django_summernote').config
         return forms.Media(
             css={
                 'all': (
@@ -89,8 +89,8 @@ class SummernoteInplaceWidget(SummernoteWidgetBase):
 
     media = property(_media)
 
+    @using_config
     def render(self, name, value, attrs=None, **kwargs):
-        config = apps.get_app_config('django_summernote').config
         summernote_settings = self.summernote_settings()
         summernote_settings.update(self.attrs.pop('summernote', {}))
 

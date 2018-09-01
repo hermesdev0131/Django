@@ -1,40 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>django-summernote playground</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=0.85">
+  <title>django-summernote playground</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=0.85">
 
-    <script type="text/javascript" src="//code.jquery.com/jquery-3.3.1.min.js"></script>
-    {% if theme == 'bs3' %}
-      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-      <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    {% elif theme == 'bs4' %}
-      <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-      <script type="text/javascript" src="//stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
-    {% endif %}
+  <script type="text/javascript" src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+  {% if theme == 'bs3' %}
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  {% elif theme == 'bs4' %}
+  <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script type="text/javascript" src="//stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+  {% endif %}
 
-    {{ form.media }}
+  {{ form.media }}
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            {% if desc1 %}
-            <h1>desc1</h1>
-            <pre>{{ desc1 }}</pre>
-            {% endif %}
-            {% if desc2 %}
-            <h1>desc2</h1>
-            <pre>{{ desc2 }}</pre>
-            {% endif %}
-            <h1>django-summernote playground</h1>
-            <form enctype="multipart/form-data" method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value="Submit">
-            </form>
-        </div>
+  <div class="container">
+    <div class="row">
+      <h1>django-summernote playground</h1>
     </div>
+    <div class="row">
+      <p>Theme: {{ theme }}</p>
+    </div>
+    {% if desc1 %}
+    <div class="row">
+      <pre>desc1: {{ desc1 }}</pre>
+    </div>
+    {% endif %}
+    {% if desc2 %}
+    <div class="row">
+      <pre>desc2: {{ desc2 }}</pre>
+    </div>
+    {% endif %}
+    <div class="row">
+      <form enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit">
+      </form>
+    </div>
+  </div>
 </body>
 </html>
