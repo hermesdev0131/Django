@@ -25,14 +25,11 @@
     <div class="row">
       <p>Theme: {{ theme }}</p>
     </div>
-    {% if desc1 %}
+    {% if passed %}
     <div class="row">
-      <pre>desc1: {{ desc1 }}</pre>
-    </div>
-    {% endif %}
-    {% if desc2 %}
-    <div class="row">
-      <pre>desc2: {{ desc2 }}</pre>
+      <div class="alert alert-primary" role="alert">
+        Valid form, passed!
+      </div>
     </div>
     {% endif %}
     <div class="row">

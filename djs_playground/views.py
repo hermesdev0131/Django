@@ -12,18 +12,37 @@ class SampleForm(forms.Form):
     )
     desc2 = forms.CharField(
         label='in place',
-        widget=SummernoteInplaceWidget()
+        widget=SummernoteInplaceWidget(),
+        required=False
     )
     desc3 = forms.CharField(
         label='normal field',
-        widget=forms.Textarea
+        widget=forms.Textarea,
     )
+
+    def clean(self):
+        data = super().clean()
+
+        if 'summer' not in data.get('desc1', ''):
+            self.add_error('desc1', 'You have to put ‘summer’ in desc1')
+        if 'note' not in data.get('desc2', ''):
+            self.add_error('desc2', 'You have to put ‘note’ in desc2')
 
 
 def index(request):
+    passed = False
+    form = SampleForm()
+
+    if request.method == "POST":
+        form = SampleForm(request.POST)
+        if form.is_valid():
+            passed = True
+            form = SampleForm()
+
     return render(request, 'index.html', {
         'desc1': request.POST.get('desc1'),
         'desc2': request.POST.get('desc2'),
-        'form': SampleForm(),
+        'passed': passed,
+        'form': form,
         'theme': SUMMERNOTE_THEME,
     })
