@@ -43,12 +43,18 @@ function initSummernote_{{ id }}() {
                         $nImageInput = $nEditor.find('.note-image-input');
                         recalcHeight($nEditor);
 
+{% if iframe %}
                         // Resize again when the height of note-toolbar changed
                         // This enhances calculation behaviors on Safari
-{% if iframe %}
                         new ResizeSensor($nEditor.find('.note-toolbar'), function() {
                             recalcHeight($nEditor);
                         });
+{% else %}
+                        // Apply attributes with wrapper div
+                        var $wrap = $($nEditor).wrap('<div></div>').parent();
+                        {% for k, v in attrs.items %}
+                        $wrap.attr('{{ k }}', '{{ v }}');
+                        {% endfor %}
 {% endif %}
 
                         // Move dropdown dialog when it exeeds the bound of the editor

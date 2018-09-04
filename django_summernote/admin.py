@@ -1,4 +1,3 @@
-from django.apps import apps
 from django.contrib import admin
 from django.contrib.admin.options import InlineModelAdmin
 from django.db import models

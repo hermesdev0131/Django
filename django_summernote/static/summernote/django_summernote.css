@@ -2,6 +2,10 @@ html, body {
     margin: 0;
 }
 
+iframe {
+  display: block;
+}
+
 .note-editor {
     margin-bottom: 0;
 }

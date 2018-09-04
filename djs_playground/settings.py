@@ -121,11 +121,16 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'djs_playground/static/')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'djs_playground/media/')
 
-SUMMERNOTE_THEME = 'bs4'
+SUMMERNOTE_THEME = 'bs3'
 SUMMERNOTE_CONFIG = {
     'summernote': {
         'width': '100%',
-        'height': '200px',
+        'height': '400px',
+        'toolbar': [
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'clear', ]],
+            ['color', ['forecolor', 'backcolor', ]],
+        ],
     },
     'css': (
         '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.40.0/theme/base16-dark.min.css',

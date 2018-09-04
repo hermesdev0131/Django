@@ -1,6 +1,5 @@
 import json
 from django import forms
-from django.apps import apps
 from django.conf import settings as django_settings
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.forms.utils import flatatt
@@ -40,15 +39,22 @@ class SummernoteWidgetBase(forms.Textarea):
         return value
 
     def use_required_attribute(self, initial):
-        # contenteditable widget cannot use HTML5 validation
+        # Contenteditable widget cannot use HTML5 validation
         return False
 
     def render(self, name, value, attrs=None, **kwargs):
+        # Original field should be hidden
         attrs_for_textarea = attrs.copy()
-        attrs_for_textarea['hidden'] =  'true'    # original field should be hidden
+        attrs_for_textarea['hidden'] = 'true'
         return super(SummernoteWidgetBase, self).render(
             name, value, attrs=attrs_for_textarea, **kwargs
         )
+
+    def final_attr(self, attrs):
+        attrs_for_final = attrs.copy()
+        attrs_for_final.update(self.attrs)
+        attrs_for_final.pop('id', None)
+        return attrs_for_final
 
 
 class SummernoteWidget(SummernoteWidgetBase):
@@ -62,7 +68,7 @@ class SummernoteWidget(SummernoteWidgetBase):
         context = {
             'id': attrs['id'].replace('-', '_'),
             'id_src': attrs['id'],
-            'attrs': flatatt(attrs),
+            'flat_attrs': flatatt(self.final_attr(attrs)),
             'settings': json.dumps(summernote_settings),
             'src': reverse('django_summernote-editor', kwargs={'id': attrs['id']}),
 
@@ -102,10 +108,11 @@ class SummernoteInplaceWidget(SummernoteWidgetBase):
         html = super(SummernoteInplaceWidget, self).render(
             name, value, attrs=attrs, **kwargs
         )
+        print(self.final_attr(attrs))
         context = {
             'id': attrs['id'].replace('-', '_'),
             'id_src': attrs['id'],
-            'attrs': flatatt(attrs),
+            'attrs': self.final_attr(attrs),
             'config': config,
             'settings': json.dumps(summernote_settings),
             'CSRF_COOKIE_NAME': django_settings.CSRF_COOKIE_NAME,

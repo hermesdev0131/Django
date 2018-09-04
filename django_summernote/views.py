@@ -1,12 +1,11 @@
-import django
-from django.apps import apps
+from django import VERSION as django_version
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView
 from django_summernote.utils import get_attachment_model, using_config
-if django.VERSION <= (1, 9):
+if django_version <= (1, 9):
     from django.views.generic import View
 else:
     from django.views import View
@@ -60,7 +59,7 @@ class SummernoteUploadAttachment(View):
     @using_config
     def post(self, request, *args, **kwargs):
         authenticated = \
-            request.user.is_authenticated if django.VERSION >= (1, 10) \
+            request.user.is_authenticated if django_version >= (1, 10) \
             else request.user.is_authenticated()
 
         if config['attachment_require_authentication'] and \

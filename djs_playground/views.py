@@ -25,8 +25,10 @@ class SampleForm(forms.Form):
 
         if 'summer' not in data.get('desc1', ''):
             self.add_error('desc1', 'You have to put ‘summer’ in desc1')
+            self.fields['desc1'].widget.attrs.update({'class': 'invalid'})
         if 'note' not in data.get('desc2', ''):
             self.add_error('desc2', 'You have to put ‘note’ in desc2')
+            self.fields['desc2'].widget.attrs.update({'class': 'invalid'})
 
 
 def index(request):
