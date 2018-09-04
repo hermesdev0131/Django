@@ -14,6 +14,10 @@ class SampleForm(forms.Form):
         label='in place',
         widget=SummernoteInplaceWidget()
     )
+    desc3 = forms.CharField(
+        label='normal field',
+        widget=forms.Textarea
+    )
 
 
 def index(request):
