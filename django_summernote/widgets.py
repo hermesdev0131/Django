@@ -39,18 +39,23 @@ class SummernoteWidgetBase(forms.Textarea):
 
         return value
 
+    def render(self, name, value, attrs=None, **kwargs):
+        attrs['hidden'] =  'true'    # original field should be hidden
+        attrs.pop('required', None)  # contenteditable widget cannot use HTML5 validation
+
+        return super(SummernoteWidgetBase, self).render(
+            name, value, attrs=attrs, **kwargs
+        )
+
 
 class SummernoteWidget(SummernoteWidgetBase):
     def render(self, name, value, attrs=None, **kwargs):
         summernote_settings = self.summernote_settings()
         summernote_settings.update(self.attrs.get('summernote', {}))
 
-        attrs_for_textarea = attrs.copy()
-        attrs_for_textarea['hidden'] = 'true'
         html = super(SummernoteWidget, self).render(
-            name, value, attrs=attrs_for_textarea, **kwargs
+            name, value, attrs=attrs, **kwargs
         )
-
         final_attrs = self.build_attrs(attrs)
         del final_attrs['id']  # Use original attributes without id.
 
@@ -95,7 +100,6 @@ class SummernoteInplaceWidget(SummernoteWidgetBase):
         summernote_settings.update(self.attrs.get('summernote', {}))
 
         attrs_for_textarea = attrs.copy()
-        attrs_for_textarea['hidden'] = 'true'
         attrs_for_textarea['id'] += '-textarea'
         html = super(SummernoteInplaceWidget, self).render(
             name, value, attrs=attrs_for_textarea, **kwargs
