@@ -39,12 +39,15 @@ class SummernoteWidgetBase(forms.Textarea):
 
         return value
 
-    def render(self, name, value, attrs=None, **kwargs):
-        attrs['hidden'] =  'true'    # original field should be hidden
-        attrs.pop('required', None)  # contenteditable widget cannot use HTML5 validation
+    def use_required_attribute(self, initial):
+        # contenteditable widget cannot use HTML5 validation
+        return False
 
+    def render(self, name, value, attrs=None, **kwargs):
+        attrs_for_textarea = attrs.copy()
+        attrs_for_textarea['hidden'] =  'true'    # original field should be hidden
         return super(SummernoteWidgetBase, self).render(
-            name, value, attrs=attrs, **kwargs
+            name, value, attrs=attrs_for_textarea, **kwargs
         )
 
 
@@ -56,13 +59,10 @@ class SummernoteWidget(SummernoteWidgetBase):
         html = super(SummernoteWidget, self).render(
             name, value, attrs=attrs, **kwargs
         )
-        final_attrs = self.build_attrs(attrs)
-        del final_attrs['id']  # Use original attributes without id.
-
         context = {
             'id': attrs['id'].replace('-', '_'),
             'id_src': attrs['id'],
-            'attrs': flatatt(final_attrs),
+            'attrs': flatatt(attrs),
             'settings': json.dumps(summernote_settings),
             'src': reverse('django_summernote-editor', kwargs={'id': attrs['id']}),
 
@@ -99,18 +99,13 @@ class SummernoteInplaceWidget(SummernoteWidgetBase):
         summernote_settings = self.summernote_settings()
         summernote_settings.update(self.attrs.get('summernote', {}))
 
-        attrs_for_textarea = attrs.copy()
-        attrs_for_textarea['id'] += '-textarea'
         html = super(SummernoteInplaceWidget, self).render(
-            name, value, attrs=attrs_for_textarea, **kwargs
+            name, value, attrs=attrs, **kwargs
         )
-        final_attrs = self.build_attrs(attrs)
-        del final_attrs['id']  # Use original attributes without id.
-
         context = {
             'id': attrs['id'].replace('-', '_'),
             'id_src': attrs['id'],
-            'attrs': flatatt(final_attrs),
+            'attrs': flatatt(attrs),
             'config': config,
             'settings': json.dumps(summernote_settings),
             'CSRF_COOKIE_NAME': django_settings.CSRF_COOKIE_NAME,

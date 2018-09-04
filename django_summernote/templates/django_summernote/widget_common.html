@@ -9,7 +9,7 @@ function initSummernote_{{ id }}() {
         var $sn = $('#summernote');
         $(iframe).height(settings.height);
 {% else %}
-        var origin = window.document.getElementById('{{ id_src }}-textarea');
+        var origin = window.document.getElementById('{{ id_src }}');
         var csrftoken = getCookie('{{ CSRF_COOKIE_NAME }}');
         var settings = {{ settings|safe }};
         var $sn = $('#{{ id_src }}');
