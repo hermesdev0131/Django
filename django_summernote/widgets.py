@@ -108,7 +108,6 @@ class SummernoteInplaceWidget(SummernoteWidgetBase):
         html = super(SummernoteInplaceWidget, self).render(
             name, value, attrs=attrs, **kwargs
         )
-        print(self.final_attr(attrs))
         context = {
             'id': attrs['id'].replace('-', '_'),
             'id_src': attrs['id'],
