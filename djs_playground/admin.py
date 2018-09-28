@@ -5,6 +5,10 @@ from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin, SummernoteModelAdminMixin
 from .models import Post, Book, Author
 
+class BookAdmin(admin.ModelAdmin):
+    model = Book
+    pass
+
 
 class PostAdmin(SummernoteModelAdmin):
     pass
@@ -12,6 +16,7 @@ class PostAdmin(SummernoteModelAdmin):
 
 class BookInline(SummernoteModelAdminMixin, admin.StackedInline):
     model = Book
+    extra = 1
 
 
 class AuthorAdmin(SummernoteModelAdminMixin, admin.ModelAdmin):
@@ -21,5 +26,6 @@ class AuthorAdmin(SummernoteModelAdminMixin, admin.ModelAdmin):
     ]
 
 
+admin.site.register(Book, BookAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Author, AuthorAdmin)

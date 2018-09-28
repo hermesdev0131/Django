@@ -130,8 +130,15 @@ SUMMERNOTE_CONFIG = {
             ['style', ['style']],
             ['font', ['bold', 'italic', 'clear', ]],
             ['color', ['forecolor', 'backcolor', ]],
+            ['misc', ['print', 'code', ]],
         ],
     },
+    'js': (
+        '/static/summernote-ext-print.js',
+    ),
+    'js_for_inplace': (
+        '/static/summernote-ext-print.js',
+    ),
     'css': (
         '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.40.0/theme/base16-dark.min.css',
     ),
