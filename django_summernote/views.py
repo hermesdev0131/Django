@@ -37,8 +37,8 @@ class SummernoteEditor(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(SummernoteEditor, self).get_context_data(**kwargs)
 
-        context['id_src'] = self.kwargs['id']
-        context['id'] = self.kwargs['id'].replace('-', '_')
+        context['id'] = self.kwargs['id']
+        context['id_safe'] = self.kwargs['id'].replace('-', '_')
         context['css'] = self.css
         context['js'] = self.js
         context['config'] = config

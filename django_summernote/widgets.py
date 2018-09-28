@@ -66,8 +66,8 @@ class SummernoteWidget(SummernoteWidgetBase):
             name, value, attrs=attrs, **kwargs
         )
         context = {
-            'id': attrs['id'].replace('-', '_'),
-            'id_src': attrs['id'],
+            'id': attrs['id'],
+            'id_safe': attrs['id'].replace('-', '_'),
             'flat_attrs': flatatt(self.final_attr(attrs)),
             'settings': json.dumps(summernote_settings),
             'src': reverse('django_summernote-editor', kwargs={'id': attrs['id']}),
@@ -109,8 +109,8 @@ class SummernoteInplaceWidget(SummernoteWidgetBase):
             name, value, attrs=attrs, **kwargs
         )
         context = {
-            'id': attrs['id'].replace('-', '_'),
-            'id_src': attrs['id'],
+            'id': attrs['id'],
+            'id_safe': attrs['id'].replace('-', '_'),
             'attrs': self.final_attr(attrs),
             'config': config,
             'settings': json.dumps(summernote_settings),

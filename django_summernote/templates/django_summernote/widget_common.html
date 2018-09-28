@@ -1,18 +1,20 @@
 <script>
-function initSummernote_{{ id }}() {
+function initSummernote_{{ id_safe }}() {
     {{ config.jquery }}(document).ready(function($) {
 {% if iframe %}
-        var iframe = window.parent.document.getElementById('{{ id }}_iframe');
-        var origin = window.parent.document.getElementById('{{ id_src }}');
+        var frameId = window.frameElement.id;
+        var id = frameId.substring(0, frameId.length - 7);  // wihtout `_frame`
+        var iframe = window.parent.document.getElementById(frameId);
+        var origin = window.parent.document.getElementById(id);
         var csrftoken = '{{ csrf_token }}';
-        var settings = window.parent.settings_{{ id }};
+        var settings = window.parent.settings_{{ id_safe }};
         var $sn = $('#summernote');
         $(iframe).height(settings.height);
 {% else %}
-        var origin = window.document.getElementById('{{ id_src }}');
+        var origin = window.document.getElementById('{{ id }}');
         var csrftoken = getCookie('{{ CSRF_COOKIE_NAME }}');
         var settings = {{ settings|safe }};
-        var $sn = $('#{{ id_src }}');
+        var $sn = $(origin);
 {% endif %}
         $sn.html(origin.value);
         var $nEditor, $nCodable, $nImageInput;

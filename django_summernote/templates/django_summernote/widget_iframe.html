@@ -1,5 +1,5 @@
 <script>
-var settings_{{ id }} = {{ settings|safe }};
+var settings_{{ id_safe }} = {{ settings|safe }};
 </script>
 <div {{ flat_attrs }} width="{{ width }}" height="{{ height }}">
   <iframe id="{{ id }}_iframe" src="{{ src }}" frameborder="0" width="{{ width }}" height="{{ height }}"></iframe>

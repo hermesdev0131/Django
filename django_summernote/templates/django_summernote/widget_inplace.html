@@ -9,8 +9,8 @@
             }
         }
     }
-    __summernotes__.push(initSummernote_{{ id }});
+    __summernotes__.push(initSummernote_{{ id_safe }});
 {% else %}
-    initSummernote_{{ id }}();
+    initSummernote_{{ id_safe }}();
 {% endif %}
 </script>
