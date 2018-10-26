@@ -3,7 +3,7 @@ function initSummernote_{{ id_safe }}() {
     {{ config.jquery }}(document).ready(function($) {
 {% if iframe %}
         var frameId = window.frameElement.id;
-        var id = frameId.substring(0, frameId.length - 7);  // wihtout `_frame`
+        var id = frameId.substring(0, frameId.length - 7);  // without `_frame`
         var iframe = window.parent.document.getElementById(frameId);
         var origin = window.parent.document.getElementById(id);
         var csrftoken = '{{ csrf_token }}';
@@ -53,7 +53,9 @@ function initSummernote_{{ id_safe }}() {
                         });
 {% else %}
                         // Apply attributes with wrapper div
-                        var $wrap = $($nEditor).wrap('<div></div>').parent();
+                        var $wrap = $($nEditor).wrap(
+                            '<div class="summernote-div"></div>'
+                        ).parent();
                         {% for k, v in attrs.items %}
                         $wrap.attr('{{ k }}', '{{ v }}');
                         {% endfor %}
@@ -125,6 +127,10 @@ function initSummernote_{{ id_safe }}() {
                     origin.value = cmEditor.getValue();
                 });
             }
+        });
+
+        $(document).on('formset:added', function(event, $row, formsetName) {
+            console.log(formsetName);
         });
 
 {% if not iframe %}

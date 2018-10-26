@@ -6,6 +6,14 @@
         <link href="{{ url }}" rel="stylesheet">{% endfor %}
         {% for url in js %}
         <script src="{{ url }}"></script>{% endfor %}
+        <style>
+        html, body {
+            margin: 0;
+        }
+        .note-editor {
+            margin-bottom: 0;
+        }
+        </style>
     </head>
     <body>
         <div id="summernote"></div>

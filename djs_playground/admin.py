@@ -20,6 +20,12 @@ class BookInline(SummernoteModelAdminMixin, admin.StackedInline):
 
 
 class AuthorAdmin(SummernoteModelAdminMixin, admin.ModelAdmin):
+    # Uncomment this to test SummernoteInplaceWidget in admin
+    class Media:
+        js = (
+            '//code.jquery.com/jquery-3.3.1.min.js',
+        )
+
     model = Author
     inlines = [
         BookInline,
