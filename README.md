@@ -29,9 +29,9 @@ SETUP
                url(r'^summernote/', include('django_summernote.urls')),
                ...
            ]
-        
+
      - For Django 2.x
-     
+
            from django.urls import include
            # ...
            urlpatterns = [
