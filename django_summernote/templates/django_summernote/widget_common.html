@@ -49,6 +49,15 @@ function initSummernote_{{ id }}() {
                         new ResizeSensor($nEditor.find('.note-toolbar'), function() {
                             recalcHeight($nEditor);
                         });
+                        // Add an event handler for fullscreen
+                        $nEditor.find('.btn-fullscreen').on('click', {editor: $nEditor}, function (e) {
+                            var $nEditor = e.data.editor;
+                            if ($nEditor.hasClass('fullscreen')) {
+                                $(iframe).addClass('note-fullscreen');
+                            } else {
+                                $(iframe).removeClass('note-fullscreen');
+                            }
+                        });
 {% else %}
                         // Apply attributes with wrapper div
                         var $wrap = $($nEditor).wrap('<div></div>').parent();
@@ -57,7 +66,7 @@ function initSummernote_{{ id }}() {
                         {% endfor %}
 {% endif %}
 
-                        // Move dropdown dialog when it exeeds the bound of the editor
+                        // Move dropdown dialog when it exceeds the bound of the editor
                         $nEditor.find('.note-btn-group').on('shown.bs.dropdown', function () {
                             var nDropdown = $(this).find(".dropdown-menu");
                             var offset = nDropdown.offset();
