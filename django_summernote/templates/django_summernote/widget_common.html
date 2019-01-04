@@ -105,9 +105,9 @@ function initSummernote_{{ id }}() {
                             })
                             .fail(function (jqXHR, textStatus, errorThrown) {
                                 // if the error message from the server has any text in it, show it
-                                var msg = jqXHR.responseText;
-                                if (msg.length > 0) {
-                                    alert('Got an error uploading an image: ' + msg);
+                                var msg = jqXHR.responseJSON;
+                                if (msg && msg.message) {
+                                    alert(msg.message);
                                 }
                                 // otherwise, show something generic
                                 else {
