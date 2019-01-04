@@ -130,7 +130,7 @@ SUMMERNOTE_CONFIG = {
             ['style', ['style']],
             ['font', ['bold', 'italic', 'clear', ]],
             ['color', ['forecolor', 'backcolor', ]],
-            ['misc', ['fullscreen', 'codeview', 'help', ]],
+            ['misc', ['picture', 'fullscreen', 'codeview', 'help', ]],
         ],
     },
     'css': (
