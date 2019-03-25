@@ -51,6 +51,15 @@ function initSummernote_{{ id_safe }}() {
                         new ResizeSensor($nEditor.find('.note-toolbar'), function() {
                             recalcHeight($nEditor);
                         });
+                        // Add an event handler for fullscreen
+                        $nEditor.find('.btn-fullscreen').on('click', {editor: $nEditor}, function (e) {
+                            var $nEditor = e.data.editor;
+                            if ($nEditor.hasClass('fullscreen')) {
+                                $(iframe).addClass('note-fullscreen');
+                            } else {
+                                $(iframe).removeClass('note-fullscreen');
+                            }
+                        });
 {% else %}
                         // Apply attributes with wrapper div
                         var $wrap = $($nEditor).wrap(
@@ -61,7 +70,7 @@ function initSummernote_{{ id_safe }}() {
                         {% endfor %}
 {% endif %}
 
-                        // Move dropdown dialog when it exeeds the bound of the editor
+                        // Move dropdown dialog when it exceeds the bound of the editor
                         $nEditor.find('.note-btn-group').on('shown.bs.dropdown', function () {
                             var nDropdown = $(this).find(".dropdown-menu");
                             var offset = nDropdown.offset();
@@ -75,12 +84,11 @@ function initSummernote_{{ id_safe }}() {
                                 nDropdown.css("left", left + "px");
                             }
                         });
-
-                        $nCodable.blur(function() {
-                            origin.value = $nCodable.val();
-                        });
                     },
                     onBlur: function() {
+                        origin.value = $sn.summernote('code');
+                    },
+                    onBlurCodeview: function() {
                         origin.value = $sn.summernote('code');
                     },
                     {% if not config.disable_attachment %}
@@ -101,9 +109,9 @@ function initSummernote_{{ id_safe }}() {
                             })
                             .fail(function (jqXHR, textStatus, errorThrown) {
                                 // if the error message from the server has any text in it, show it
-                                var msg = jqXHR.responseText;
-                                if (msg.length > 0) {
-                                    alert('Got an error uploading an image: ' + msg);
+                                var msg = jqXHR.responseJSON;
+                                if (msg && msg.message) {
+                                    alert(msg.message);
                                 }
                                 // otherwise, show something generic
                                 else {
@@ -119,6 +127,7 @@ function initSummernote_{{ id_safe }}() {
         // include summernote language pack, synchronously
         $.ajax({url: settings.url.language, dataType: "script", complete: initEditor})
 
+<<<<<<< HEAD
         // For CodeMirror
         $sn.on('summernote.codeview.toggled', function() {
             var cmEditor = $nCodable.data('cmEditor');
@@ -133,6 +142,8 @@ function initSummernote_{{ id_safe }}() {
             console.log(formsetName);
         });
 
+=======
+>>>>>>> master
 {% if not iframe %}
         // See https://docs.djangoproject.com/en/dev/ref/contrib/csrf/#ajax
         function getCookie(name) {
