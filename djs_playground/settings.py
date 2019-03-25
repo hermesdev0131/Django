@@ -123,7 +123,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'djs_playground/media/')
 
 SUMMERNOTE_THEME = 'bs4'
 SUMMERNOTE_CONFIG = {
-    'iframe': True,
+    'iframe': False,
     'summernote': {
         'width': '800px',
         'height': '400px',
@@ -131,8 +131,7 @@ SUMMERNOTE_CONFIG = {
             ['style', ['style']],
             ['font', ['bold', 'italic', 'clear', ]],
             ['color', ['forecolor', 'backcolor', ]],
-            ['misc', ['print', 'codeview', 'fullscreen', ]],
-            ['misc', ['picture', 'fullscreen', 'codeview', 'help', ]],
+            ['misc', ['picture', 'fullscreen', 'codeview', 'print', 'help', ]],
         ],
     },
     'js': (

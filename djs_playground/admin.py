@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.contrib import admin
+from django.forms.widgets import Media
 from django_summernote.admin import SummernoteModelAdmin, SummernoteModelAdminMixin
+from django_summernote.utils import get_theme_files
 from .models import Post, Book, Author
 
 class BookAdmin(admin.ModelAdmin):
@@ -20,11 +23,16 @@ class BookInline(SummernoteModelAdminMixin, admin.StackedInline):
 
 
 class AuthorAdmin(SummernoteModelAdminMixin, admin.ModelAdmin):
-    # Uncomment this to test SummernoteInplaceWidget in admin
-    class Media:
-        js = (
-            '//code.jquery.com/jquery-3.3.1.min.js',
-        )
+    # For non-bootstrapped admin site,
+    # JavaScript and CSS files should be imported manually like below.
+    @property
+    def media(self):
+        media = super(AuthorAdmin, self).media + Media(
+            js = get_theme_files(settings.SUMMERNOTE_THEME, 'base_js'),
+            css = {
+            'all': get_theme_files(settings.SUMMERNOTE_THEME, 'base_css'),
+        })
+        return media
 
     model = Author
     inlines = [

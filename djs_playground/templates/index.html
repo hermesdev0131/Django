@@ -40,7 +40,7 @@
     <div class="row">
       <form enctype="multipart/form-data" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form.as_ul }}
         <input type="submit" value="Submit">
       </form>
     </div>

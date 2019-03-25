@@ -11,7 +11,7 @@ class SampleForm(forms.Form):
         widget=SummernoteWidget()
     )
     desc2 = forms.CharField(
-        label='in place',
+        label='inplace',
         widget=SummernoteInplaceWidget(),
         required=False
     )

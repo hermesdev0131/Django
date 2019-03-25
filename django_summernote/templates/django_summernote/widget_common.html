@@ -127,7 +127,6 @@ function initSummernote_{{ id_safe }}() {
         // include summernote language pack, synchronously
         $.ajax({url: settings.url.language, dataType: "script", complete: initEditor})
 
-<<<<<<< HEAD
         // For CodeMirror
         $sn.on('summernote.codeview.toggled', function() {
             var cmEditor = $nCodable.data('cmEditor');
@@ -142,8 +141,6 @@ function initSummernote_{{ id_safe }}() {
             console.log(formsetName);
         });
 
-=======
->>>>>>> master
 {% if not iframe %}
         // See https://docs.djangoproject.com/en/dev/ref/contrib/csrf/#ajax
         function getCookie(name) {
