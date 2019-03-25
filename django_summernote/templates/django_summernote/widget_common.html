@@ -137,10 +137,6 @@ function initSummernote_{{ id_safe }}() {
             }
         });
 
-        $(document).on('formset:added', function(event, $row, formsetName) {
-            console.log(formsetName);
-        });
-
 {% if not iframe %}
         // See https://docs.djangoproject.com/en/dev/ref/contrib/csrf/#ajax
         function getCookie(name) {
