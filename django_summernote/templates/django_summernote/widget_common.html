@@ -42,7 +42,6 @@ function initSummernote_{{ id_safe }}() {
                     onInit: function() {
                         $nEditor = $sn.next();
                         $nCodable = $nEditor.find('.note-codable');
-                        $nImageInput = $nEditor.find('.note-image-input');
                         recalcHeight($nEditor);
 
 {% if iframe %}
@@ -95,6 +94,7 @@ function initSummernote_{{ id_safe }}() {
                     onImageUpload: function(files) {
                         // custom attachment data
                         var attachmentData = origin.dataset;
+                        $nImageInput = $nEditor.find('.note-image-input');
                         $nImageInput.fileupload();
                         var jqXHR = $nImageInput.fileupload('send', 
                             {
@@ -118,6 +118,9 @@ function initSummernote_{{ id_safe }}() {
                                     alert('Got an error while uploading images.');
                                 }
                             });
+                        // Summernote will replace ImageInput when next the dialog opens.
+                        // But we have to reset it to prevent additional uploading by form itself.
+                        $nImageInput.replaceWith($nImageInput.val('').clone(true));
                     }
                     {% endif %}
                 }
