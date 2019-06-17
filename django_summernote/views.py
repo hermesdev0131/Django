@@ -89,7 +89,6 @@ class SummernoteUploadAttachment(View):
                 klass = get_attachment_model()
                 attachment = klass()
                 attachment.file = file
-                attachment.name = file.name
 
                 if file.size > config['attachment_filesize_limit']:
                     return JsonResponse({

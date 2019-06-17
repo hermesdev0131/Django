@@ -17,6 +17,11 @@ class AbstractAttachment(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        if not self.name:
+            self.name = self.file.name
+        super(AbstractAttachment, self).save(*args, **kwargs)
+
     class Meta:
         abstract = True
 
