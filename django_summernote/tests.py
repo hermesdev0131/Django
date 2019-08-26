@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
+try:
+    from unittest.mock import patch
+except ImportError:
+    from mock import patch
+
 from django.apps import apps
 from django.contrib.admin.sites import AdminSite
 from django.contrib.auth.models import User
 from django.db import models
+
 try:
     # Django >= 2.0
     from django.urls import reverse
@@ -13,6 +19,8 @@ from django.test import TestCase, Client, override_settings
 from django_summernote.utils import get_attachment_storage, get_attachment_model
 import json
 from imp import reload
+from io import BytesIO
+from PIL import Image
 
 
 class DjangoSummernoteTest(TestCase):
@@ -24,6 +32,16 @@ class DjangoSummernoteTest(TestCase):
         self.app_config = apps.get_app_config('django_summernote')
         self.app_config.update_config()
         self.summernote_config = self.app_config.config
+
+    @staticmethod
+    def create_test_image():
+        # https://wildfish.com/blog/2014/02/27/generating-in-memory-image-for-tests-python/
+        file = BytesIO()
+        image = Image.new('RGBA', size=(50, 50), color=(155, 0, 0))
+        image.save(file, 'png')
+        file.name = 'test.png'
+        file.seek(0)
+        return file
 
     def test_base(self):
         self.assertTrue(True)
@@ -124,16 +142,15 @@ class DjangoSummernoteTest(TestCase):
         assert f.cleaned_data.get('foobar')
 
     def test_attachment(self):
-        import os
         url = reverse('django_summernote-upload_attachment')
+        image = self.create_test_image()
 
-        with open(__file__, 'rb') as fp:
-            response = self.client.post(url, {'files': [fp]})
-            self.assertEqual(response.status_code, 200)
-            self.assertContains(
-                response, '"name": "%s"' % os.path.basename(__file__))
-            self.assertContains(response, '"url": ')
-            self.assertContains(response, '"size": ')
+        response = self.client.post(url, {'files': image})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response, '"name": "%s"' % image.name)
+        self.assertContains(response, '"url": ')
+        self.assertContains(response, '"size": ')
 
     def test_attachment_with_custom_storage(self):
         self.summernote_config['attachment_storage_class'] = \
@@ -145,9 +162,10 @@ class DjangoSummernoteTest(TestCase):
 
         url = reverse('django_summernote-upload_attachment')
 
-        with open(__file__, 'rb') as fp:
-            response = self.client.post(url, {'files': [fp]})
-            self.assertEqual(response.status_code, 200)
+        image = self.create_test_image()
+
+        response = self.client.post(url, {'files': image})
+        self.assertEqual(response.status_code, 200)
 
         file_field.storage = original_storage
 
@@ -184,9 +202,9 @@ class DjangoSummernoteTest(TestCase):
 
         url = reverse('django_summernote-upload_attachment')
 
-        with open(__file__, 'rb') as fp:
-            response = self.client.post(url, {'files': [fp]})
-            self.assertNotEqual(response.status_code, 200)
+        image = self.create_test_image()
+        response = self.client.post(url, {'files': image})
+        self.assertNotEqual(response.status_code, 200)
 
         file_field.storage = original_storage
 
@@ -224,16 +242,17 @@ class DjangoSummernoteTest(TestCase):
         self.assertNotEqual(response.status_code, 200)
 
     def test_attachment_filesize_exceed(self):
-        import os
-
         url = reverse('django_summernote-upload_attachment')
-        size = os.path.getsize(__file__)
+        image = self.create_test_image()
+
+        size = len(image.getvalue())  # how to do it in better way?
+
         old_limit = self.summernote_config['attachment_filesize_limit']
         self.summernote_config['attachment_filesize_limit'] = size - 1
 
-        with open(__file__, 'rb') as fp:
-            response = self.client.post(url, {'files': [fp]})
-            self.assertNotEqual(response.status_code, 200)
+        response = self.client.post(url, {'files': [image]})
+        self.assertNotEqual(response.status_code, 200)
+        self.assertEqual(response.json()['message'], 'File size exceeds the limit allowed and cannot be saved')
 
         self.summernote_config['attachment_filesize_limit'] = old_limit
 
@@ -244,41 +263,82 @@ class DjangoSummernoteTest(TestCase):
         self.user = User.objects.create_user(
             username=self.username, password=self.password)
 
-        with open(__file__, 'rb') as fp:
-            response = self.client.post(url, {'files': [fp]})
-            self.assertEqual(response.status_code, 403)
+        image = self.create_test_image()
+
+        response = self.client.post(url, {'files': image})
+        self.assertEqual(response.status_code, 403)
 
         c = Client()
         c.login(username=self.username, password=self.password)
 
-        with open(__file__, 'rb') as fp:
-            response = c.post(url, {'files': [fp]})
-            self.assertEqual(response.status_code, 200)
+        image.seek(0)
+        response = c.post(url, {'files': image})
+        self.assertEqual(response.status_code, 200)
 
         self.summernote_config['attachment_require_authentication'] = False
 
+    @patch('django_summernote.views.logger')
+    def test_attachment_disable_attachment(self, mock_logging):
+        url = reverse('django_summernote-upload_attachment')
+        self.summernote_config['disable_attachment'] = True
+
+        self.user = User.objects.create_user(
+            username=self.username, password=self.password)
+
+        image = self.create_test_image()
+
+        c = Client()
+        c.login(username=self.username, password=self.password)
+
+        response = c.post(url, {'files': image})
+        self.assertEqual(response.status_code, 403)
+        self.assertDictEqual(response.json(), {"status": "false", "message": "Attachment module is disabled"})
+        self.assertTrue(mock_logging.error.called)
+        self.summernote_config['disable_attachment'] = False
+
+    @patch('django_summernote.views.logger')
+    def test_wrong_attachment(self, mock_logging):
+        self.user = User.objects.create_user(
+            username=self.username, password=self.password)
+
+        c = Client()
+        c.login(username=self.username, password=self.password)
+
+        url = reverse('django_summernote-upload_attachment')
+        with open(__file__, 'rb') as fp:
+            response = c.post(url, {'files': [fp]})
+
+        self.assertEqual(response.status_code, 400)
+        self.assertDictEqual(
+            response.json(),
+            {
+                "status": "false",
+                "message": "Upload a valid image. The file you uploaded was either not an image or a corrupted image."
+            }
+        )
+        self.assertTrue(mock_logging.error.called)
+
     def test_attachment_not_require_authentication(self):
+        image = self.create_test_image()
         url = reverse('django_summernote-upload_attachment')
         self.summernote_config['attachment_require_authentication'] = False
 
         self.user = User.objects.create_user(
             username=self.username, password=self.password)
 
-        with open(__file__, 'rb') as fp:
-            response = self.client.post(url, {'files': [fp]})
-            self.assertEqual(response.status_code, 200)
+        response = self.client.post(url, {'files': image})
+        self.assertEqual(response.status_code, 200)
 
     @override_settings(USE_THOUSAND_SEPARATOR=True)
     def test_attachment_with_thousand_separator_option(self):
-        import os
         url = reverse('django_summernote-upload_attachment')
-        size = os.path.getsize(__file__)
+        image = self.create_test_image()
+        size = len(image.getvalue())  # how to do it in better way?
 
-        with open(__file__, 'rb') as fp:
-            response = self.client.post(url, {'files': [fp]})
-            self.assertEqual(response.status_code, 200)
-            res = json.loads(response.content.decode('utf-8'))
-            self.assertEqual(res['files'][0]['size'], size)
+        response = self.client.post(url, {'files': [image]})
+        self.assertEqual(response.status_code, 200)
+        res = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(res['files'][0]['size'], size)
 
     def test_lang_specified(self):
         old_lang = self.summernote_config['summernote']['lang']
@@ -395,12 +455,34 @@ class DjangoSummernoteTest(TestCase):
         aa = AttachmentAdmin(Attachment, self.site)
         attachment = Attachment()
         with open(__file__, 'rb') as fp:
-            djangoFile = File(fp)
-            djangoFile.name = os.path.basename(djangoFile.name)
-            attachment.file = djangoFile
+            django_file = File(fp)
+            django_file.name = os.path.basename(django_file.name)
+            attachment.file = django_file
+            self.assertFalse(aa.form().is_valid())
             self.assertEqual(attachment.name, None)
             aa.save_model(None, attachment, None, None)
             self.assertEqual(attachment.name, os.path.basename(__file__))
+
+    def test_attachment_admin_default_name_valid_file(self):
+        from django_summernote.admin import AttachmentAdmin
+        from django_summernote.models import Attachment
+        from django.core.files import File
+        import os
+
+        aa = AttachmentAdmin(Attachment, self.site)
+
+        attachment = Attachment()
+
+        image = self.create_test_image()
+
+        django_file = File(image)
+        django_file.name = os.path.basename(image.name)
+        attachment.file = django_file
+        form = aa.form(files={'file': django_file})
+        self.assertTrue(form.is_valid())
+        self.assertEqual(attachment.name, None)
+        aa.save_model(request=None, obj=attachment, form=form, change=None)
+        self.assertEqual(attachment.name, image.name)
 
     def test_config_allow_blank_values(self):
         from django_summernote.widgets import SummernoteWidget

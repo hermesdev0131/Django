@@ -1,10 +1,17 @@
+import logging
 from django import VERSION as django_version
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.templatetags.static import static
 from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView
+
+from django_summernote.forms import UploadForm
 from django_summernote.utils import get_attachment_model, using_config
+
+logger = logging.getLogger(__name__)
+
 try:
     # Django >= 1.10
     from django.views import View
@@ -47,7 +54,11 @@ class SummernoteEditor(TemplateView):
         return context
 
 
-class SummernoteUploadAttachment(View):
+class SummernoteUploadAttachment(UserPassesTestMixin, View):
+    @using_config
+    def test_func(self):
+        return config['test_func_upload_view'](self.request)
+
     def __init__(self):
         super(SummernoteUploadAttachment, self).__init__()
 
@@ -61,7 +72,18 @@ class SummernoteUploadAttachment(View):
     def post(self, request, *args, **kwargs):
         authenticated = \
             request.user.is_authenticated if django_version >= (1, 10) \
-            else request.user.is_authenticated()
+                else request.user.is_authenticated()
+
+        if config['disable_attachment']:
+            logger.error(
+                'User<%s:%s> tried to use disabled attachment module.',
+                getattr(request.user, 'pk', None),
+                request.user
+            )
+            return JsonResponse({
+                'status': 'false',
+                'message': _('Attachment module is disabled'),
+            }, status=403)
 
         if config['attachment_require_authentication'] and \
                 not authenticated:
@@ -78,7 +100,28 @@ class SummernoteUploadAttachment(View):
 
         # remove unnecessary CSRF token, if found
         kwargs = request.POST.copy()
-        kwargs.pop("csrfmiddlewaretoken", None)
+        kwargs.pop('csrfmiddlewaretoken', None)
+
+        for file in request.FILES.getlist('files'):
+            form = UploadForm(
+                files={
+                    'file': file,
+                }
+            )
+            if not form.is_valid():
+                logger.error(
+                    'User<%s:%s> tried to upload non-image file.',
+                    getattr(request.user, 'pk', None),
+                    request.user
+                )
+
+                return JsonResponse(
+                    {
+                        'status': 'false',
+                        'message': ''.join(form.errors['file']),
+                    },
+                    status=400
+                )
 
         try:
             attachments = []

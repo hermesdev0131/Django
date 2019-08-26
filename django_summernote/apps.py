@@ -1,8 +1,8 @@
 from django.apps import AppConfig
 from django.conf import settings as django_settings
 from django_summernote.utils import (
-    LANG_TO_LOCALE, uploaded_filepath, get_theme_files
-)
+    LANG_TO_LOCALE, uploaded_filepath, get_theme_files,
+    example_test_func)
 
 
 class DjangoSummernoteConfig(AppConfig):
@@ -35,6 +35,10 @@ class DjangoSummernoteConfig(AppConfig):
             'attachment_require_authentication': False,
             'attachment_model': 'django_summernote.Attachment',
             'attachment_absolute_uri': False,
+
+            # additional test_func, for example you want to check if user is in specific group:
+            # https://docs.djangoproject.com/en/2.2/topics/auth/default/#django.contrib.auth.mixins.UserPassesTestMixin
+            'test_func_upload_view': example_test_func,
 
             # Shortcut name for jQuery
             'jquery': '$',

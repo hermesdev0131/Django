@@ -16,6 +16,7 @@ CLASSIFIERS = [
     'Programming Language :: Python :: 3.4',
     'Programming Language :: Python :: 3.5',
     'Programming Language :: Python :: 3.6',
+    'Programming Language :: Python :: 3.7',
     'Programming Language :: Python',
     'Topic :: Internet :: WWW/HTTP',
     'Topic :: Software Development :: Libraries :: Python Modules',
@@ -37,7 +38,7 @@ setup(
     description='Summernote plugin for Django',
     classifiers=CLASSIFIERS,
 
-    install_requires=['django', ],
+    install_requires=['django', 'Pillow'],
     test_suite='runtests.runtests',
-    tests_require=['django-dummy-plug', ],
+    tests_require=['django-dummy-plug', 'mock'],
 )

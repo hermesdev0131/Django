@@ -199,6 +199,14 @@ SUMMERNOTE_CONFIG = {
     # Set `True` to return attachment paths in absolute URIs.
     'attachment_absolute_uri': False,
 
+    # test_func in summernote upload view. (Allow upload images only when user passes the test)
+    # https://docs.djangoproject.com/en/2.2/topics/auth/default/#django.contrib.auth.mixins.UserPassesTestMixin
+    ```
+    def example_test_func(request):
+        return request.user.groups.filter(name='group_name').exists()
+    ```
+    'test_func_upload_view': example_test_func,
+
     # You can add custom css/js for SummernoteWidget.
     'css': (
     ),

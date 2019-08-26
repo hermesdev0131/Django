@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.contrib.admin.options import InlineModelAdmin
 from django.db import models
+
+from django_summernote.forms import AttachmentAdminForm
 from django_summernote.utils import get_attachment_model, using_config
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
@@ -23,17 +25,18 @@ class SummernoteModelAdminMixin(object):
 
 
 class SummernoteInlineModelAdmin(SummernoteModelAdminMixin, InlineModelAdmin):
-    pass
+    form = AttachmentAdminForm
 
 
 class SummernoteModelAdmin(SummernoteModelAdminMixin, admin.ModelAdmin):
-    pass
+    form = AttachmentAdminForm
 
 
 class AttachmentAdmin(admin.ModelAdmin):
     list_display = ['name', 'file', 'uploaded']
     search_fields = ['name']
     ordering = ('-id',)
+    form = AttachmentAdminForm
 
     def save_model(self, request, obj, form, change):
         obj.name = obj.file.name if (not obj.name) else obj.name

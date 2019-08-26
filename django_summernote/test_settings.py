@@ -16,7 +16,7 @@ __MIDDLEWARE__ = (
     'django.middleware.locale.LocaleMiddleware',
 )
 
-if django.VERSION <= (1, 9):
+if django.VERSION < (1, 10):
     MIDDLEWARE_CLASSES = __MIDDLEWARE__
 else:
     MIDDLEWARE = __MIDDLEWARE__

@@ -8,7 +8,6 @@ from django.utils.translation import get_language
 from functools import wraps
 from importlib import import_module
 
-
 # A conversion table from language to locale
 LANG_TO_LOCALE = {
     'ar': 'ar-AR',
@@ -119,6 +118,7 @@ def using_config(_func=None):
     This allows a function to use Summernote configuration
     as a global variable, temporarily.
     """
+
     def decorator(func):
         @wraps(func)
         def inner_dec(*args, **kwargs):
@@ -138,6 +138,7 @@ def using_config(_func=None):
                     g[var_name] = oldvalue
 
             return res
+
         return inner_dec
 
     if _func is None:
@@ -161,6 +162,10 @@ def get_theme_files(theme, part):
     Return selected theme files
     """
     return SUMMERNOTE_THEME_FILES[theme][part]
+
+
+def example_test_func(request):
+    return True
 
 
 @using_config
@@ -195,7 +200,8 @@ def get_attachment_model():
         raise ImproperlyConfigured("SUMMERNOTE_CONFIG['attachment_model'] must be of the form 'app_label.model_name'")
     except LookupError:
         raise ImproperlyConfigured(
-            "SUMMERNOTE_CONFIG['attachment_model'] refers to model '%s' that has not been installed" % config["attachment_model"]
+            "SUMMERNOTE_CONFIG['attachment_model'] refers to model '%s' that has not been installed" % config[
+                "attachment_model"]
         )
 
 
