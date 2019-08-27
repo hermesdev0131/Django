@@ -6,6 +6,7 @@ from django.forms.utils import flatatt
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django_summernote.utils import get_proper_language, using_config
+
 try:
     from django.urls import reverse  # Django >= 2.0
 except ImportError:
@@ -87,15 +88,15 @@ class SummernoteInplaceWidget(SummernoteWidgetBase):
         return forms.Media(
             css={
                 'all': (
-                    (config['codemirror_css'] if 'codemirror' in config else ()) +
-                    config['default_css'] +
-                    config['css_for_inplace']
+                        (config['codemirror_css'] if 'codemirror' in config else ()) +
+                        config['default_css'] +
+                        config['css_for_inplace']
                 )
             },
             js=(
-                (config['codemirror_js'] if 'codemirror' in config else ()) +
-                config['default_js'] +
-                config['js_for_inplace']
+                    (config['codemirror_js'] if 'codemirror' in config else ()) +
+                    config['default_js'] +
+                    config['js_for_inplace']
             ))
 
     media = property(_media)
@@ -119,3 +120,10 @@ class SummernoteInplaceWidget(SummernoteWidgetBase):
 
         html += render_to_string('django_summernote/widget_inplace.html', context)
         return mark_safe(html)
+
+    def final_attr(self, attr):
+        attrs_for_final = super(SummernoteInplaceWidget, self).final_attr(attr)
+        # crispy form render bug
+        if 'class' in attrs_for_final:
+            attrs_for_final['class'] = attrs_for_final['class'].replace(' form-control', '')
+        return attrs_for_final
