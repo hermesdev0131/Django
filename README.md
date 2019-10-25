@@ -15,11 +15,11 @@ SETUP
 
 1. Install `django-summernote` to your python environment.
 
-        pip install django-summernote
+       pip install django-summernote
 
 2. Add `django_summernote` to `INSTALLED_APP` in `settings.py`.
 
-        INSTALLED_APPS += ('django_summernote', )
+       INSTALLED_APPS += ('django_summernote', )
 
 3. Add `django_summernote.urls` to `urls.py`.
      - For Django 1.x
@@ -48,17 +48,17 @@ SETUP
     
      - When debug option is enabled(```DEBUG=True```), DO NOT forget to add urlpatterns as shown below:
      
-            from django.conf import settings
-            from django.conf.urls.static import static
+           from django.conf import settings
+           from django.conf.urls.static import static
             
-            if settings.DEBUG:
-                urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+           if settings.DEBUG:
+               urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
             
      - Please, read the official document more in detail: <https://docs.djangoproject.com/en/1.11/topics/files/>
 
 5. Run database migration for preparing attachment model.
 
-        python manage.py migrate
+       python manage.py migrate
 
 USAGE
 -----
@@ -67,14 +67,14 @@ USAGE
 In `admin.py`,
 
 ```python
-    from django_summernote.admin import SummernoteModelAdmin
-    from .models import SomeModel
+from django_summernote.admin import SummernoteModelAdmin
+from .models import SomeModel
 
-    # Apply summernote to all TextField in model.
-    class SomeModelAdmin(SummernoteModelAdmin):  # instead of ModelAdmin
-        summernote_fields = '__all__'
+# Apply summernote to all TextField in model.
+class SomeModelAdmin(SummernoteModelAdmin):  # instead of ModelAdmin
+    summernote_fields = '__all__'
 
-    admin.site.register(SomeModel, SomeModelAdmin)
+admin.site.register(SomeModel, SomeModelAdmin)
 ```
 
 ### Apply summernote to not all TextField in model

@@ -38,9 +38,4 @@ class AttachmentAdmin(admin.ModelAdmin):
     ordering = ('-id',)
     form = AttachmentAdminForm
 
-    def save_model(self, request, obj, form, change):
-        obj.name = obj.file.name if (not obj.name) else obj.name
-        super(AttachmentAdmin, self).save_model(request, obj, form, change)
-
-
 admin.site.register(get_attachment_model(), AttachmentAdmin)
