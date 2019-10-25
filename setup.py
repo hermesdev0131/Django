@@ -39,7 +39,7 @@ setup(
     description='Summernote plugin for Django',
     classifiers=CLASSIFIERS,
 
-    install_requires=['django', 'Pillow'],
+    install_requires=['django'],
     test_suite='runtests.runtests',
     tests_require=['django-dummy-plug', 'mock'],
 )
