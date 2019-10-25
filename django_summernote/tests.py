@@ -462,7 +462,21 @@ class DjangoSummernoteTest(TestCase):
             self.assertEqual(attachment.name, None)
             aa.save_model(None, attachment, None, None)
             self.assertEqual(attachment.name, os.path.basename(__file__))
+            
+    def test_attachment_as_string(self):
+        from django_summernote.models import Attachment
+        from django.core.files import File
+        import os
 
+        attachment = Attachment()
+        with open(__file__, 'rb') as fp:
+            djangoFile = File(fp)
+            djangoFile.name = os.path.basename(djangoFile.name)
+            attachment.file = djangoFile
+            attachment.save();
+
+            self.assertEqual(str(attachment), djangoFile.name)
+            
     def test_attachment_admin_default_name_valid_file(self):
         from django_summernote.admin import AttachmentAdmin
         from django_summernote.models import Attachment
