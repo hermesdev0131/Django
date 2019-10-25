@@ -1,5 +1,12 @@
-0.8.11.4.2 - Fix crispy-forms issue with SummernoteInplaceWidget
-0.8.11.4.1 - Security fixes and CustomUserPassesTestMixin in SummernoteUploadAttachment view
+0.8.11.5 (WIP)
+--------
+ - Fix crispy-forms issue with SummernoteInplaceWidget (@wuuuduu)
+ - Security fixes and CustomUserPassesTestMixin in SummernoteUploadAttachment view (@wuuuduu)
+ - Update Travis / Tox settings for the latest Django and Python versions (@lqez)
+
+
+Archived
+--------
 0.8.11.4 - Minor changes on SummernoteWidget and update jQuery-file-upload files
 0.8.11.3 - Fix style issues (Fullscreen and crispy-forms)
 0.8.11.2 - Fix Fullscreen button for SummernoteWidget(iframe)
@@ -7,7 +14,7 @@
 0.8.11.0 - Bump summernote with several changes
 0.8.10.0 - Bump summernote and update for Bootstrap4 and Lite UI
 0.8.8.8 - Fix compatibility issue for Django 2.1
-0.8.8.6 - A lot of internal code changes 
+0.8.8.6 - A lot of internal code changes
 0.8.8.5 - Now we're supporting Django 2.0
 0.8.8.4 - Hotfix for handling static files
 0.8.8.3 - Fix a migration issue and minor bugs
@@ -44,7 +51,7 @@
 0.5.8 - Bump summernote version with air-mode support
 0.5.7 - Update summernote with major bug fixes with language set updates
 0.5.6 - Fix ignoring required=True problem on inplace widget
-0.5.5 - Update summernote with several bug fixes with new language sets 
+0.5.5 - Update summernote with several bug fixes with new language sets
 0.5.4 - Added inplace - no iframe - widget
 0.5.3 - Add more unittest with coverall.io settings
 0.5.2 - Fix double scrollbar problem (by jeyraof)
@@ -64,7 +71,7 @@
 0.2.7 - Make editor size fit to its parent
 0.2.6 - Apply inherited attributes
 0.2.5 - Toolbar customization
-0.2.4 - Update Summernote 
+0.2.4 - Update Summernote
 0.2.3 - Fix for Internet Explorer (issue #1)
 0.2.2 - Using non-responsive bootstrap css
 0.2.1 - Fix packaging problem
