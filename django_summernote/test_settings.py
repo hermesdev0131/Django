@@ -22,6 +22,7 @@ else:
     MIDDLEWARE = __MIDDLEWARE__
 
 STATIC_URL = '/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = 'test_media'
 
 SECRET_KEY = 'django_summernote'
