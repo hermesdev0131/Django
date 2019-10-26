@@ -1,3 +1,4 @@
+import sys
 from setuptools import setup, find_packages
 from django_summernote import version, PROJECT
 
@@ -24,6 +25,10 @@ CLASSIFIERS = [
     'Topic :: Utilities',
 ]
 
+TESTS_REQUIRE = ['django-dummy-plug']
+# mock is available as unittest.mock in Python 3.3 onwards.
+if sys.version_info < (3, 3, 0):
+    TESTS_REQUIRE += ['mock']
 
 setup(
     name=PROJECT,
@@ -41,5 +46,5 @@ setup(
 
     install_requires=['django'],
     test_suite='runtests.runtests',
-    tests_require=['django-dummy-plug', 'mock'],
+    tests_require=TESTS_REQUIRE,
 )
