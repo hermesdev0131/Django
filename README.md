@@ -42,21 +42,26 @@ SETUP
 
 4. Be sure to set proper `MEDIA_URL` for attachments.
      - The following is an example test code:
-     
+
            MEDIA_URL = '/media/'
            MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-    
+
      - When debug option is enabled(```DEBUG=True```), DO NOT forget to add urlpatterns as shown below:
-     
+
            from django.conf import settings
            from django.conf.urls.static import static
-            
+
            if settings.DEBUG:
                urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-            
+
      - Please, read the official document more in detail: <https://docs.djangoproject.com/en/1.11/topics/files/>
 
-5. Run database migration for preparing attachment model.
+5. If you're using Django 3.x with default SummernoteWidget, then
+
+     - Do not forget to set `X_FRAME_OPTIONS = 'SAMEORIGIN'` in your django settings.
+     - [Clickjacking Protection](https://docs.djangoproject.com/en/3.0/ref/clickjacking/)
+
+6. Run database migration for preparing attachment model.
 
        python manage.py migrate
 
@@ -201,7 +206,7 @@ SUMMERNOTE_CONFIG = {
 
     # You can disable attachment feature.
     'disable_attachment': False,
-    
+
     # Set `True` to return attachment paths in absolute URIs.
     'attachment_absolute_uri': False,
 
@@ -268,13 +273,24 @@ class SomeForm(forms.Form):
     foo = forms.CharField(widget=SummernoteWidget(attrs={'data-user-id': 123456, 'data-device': 'iphone'}))
 ```
 
+TEST
+----
+
+Run `tox`. If you don't have it, just `pip install tox`
+
+You can also run test with only specified targets.
+```
+$ tox -e py27-dj111, py38-dj301
+```
+
+
 LIMITATIONS
 -----------
 
 `django-summernote` does currently not support upload of non-image files.
 
+
 LICENSE
 -------
 
 `django-summernote` is distributed under MIT license and proudly served by great contributors.
-

@@ -17,7 +17,13 @@ except ImportError:
 
 from django.test import TestCase, Client, override_settings
 from django_summernote.utils import get_attachment_storage, get_attachment_model
-from imp import reload
+import sys
+
+if sys.version_info >= (3, 4):
+    from importlib import reload
+else:
+    from imp import reload
+
 import json
 import os
 

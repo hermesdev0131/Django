@@ -1,9 +1,10 @@
-0.8.11.5 (WIP)
+0.8.11.5
 --------
  - Fix crispy-forms issue with SummernoteInplaceWidget (@wuuuduu)
  - Security fixes and CustomUserPassesTestMixin in SummernoteUploadAttachment view (@wuuuduu)
  - Update Travis / Tox settings for the latest Django and Python versions (@lqez)
-
+ - Add test targets for Django 3.0+ (@lqez)
+ - Replace test runer with pytest (@lqez)
 
 Archived
 --------

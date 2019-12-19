@@ -52,3 +52,6 @@ TEMPLATES = [
         },
     },
 ]
+
+if django.VERSION >= (3, 0):
+    X_FRAME_OPTIONS = 'SAMEORIGIN'

@@ -4,7 +4,10 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.templatetags.static import static
 from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
-from django.utils.translation import ugettext as _
+if django_version >= (3, 0):
+    from django.utils.translation import gettext as _
+else:
+    from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView
 
 from django_summernote.forms import UploadForm
@@ -70,9 +73,7 @@ class SummernoteUploadAttachment(UserPassesTestMixin, View):
 
     @using_config
     def post(self, request, *args, **kwargs):
-        authenticated = \
-            request.user.is_authenticated if django_version >= (1, 10) \
-                else request.user.is_authenticated()
+        authenticated = request.user.is_authenticated
 
         if config['disable_attachment']:
             logger.error(
