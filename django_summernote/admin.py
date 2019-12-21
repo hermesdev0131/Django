@@ -25,11 +25,11 @@ class SummernoteModelAdminMixin(object):
 
 
 class SummernoteInlineModelAdmin(SummernoteModelAdminMixin, InlineModelAdmin):
-    form = AttachmentAdminForm
+    pass
 
 
 class SummernoteModelAdmin(SummernoteModelAdminMixin, admin.ModelAdmin):
-    form = AttachmentAdminForm
+    pass
 
 
 class AttachmentAdmin(admin.ModelAdmin):
