@@ -1,3 +1,11 @@
+0.8.13.0 (WIP)
+--------
+ - Bump Summernote to 0.8.13
+
+0.8.11.6
+--------
+ - HOTFIX: Remove unintended form application from admin mixins (@lqez)
+
 0.8.11.5
 --------
  - Fix crispy-forms issue with SummernoteInplaceWidget (@wuuuduu)
