@@ -155,7 +155,7 @@ You can change the theme by `SUMMERNOTE_THEME = '<theme_name>'` in `settings.py`
 
  - Bootstrap3 (`bs3`)
  - Bootstrap4 (`bs4`)
- - Lite UI (Summernote standalone) (`lite`)
+ - Lite UI (without Bootstrap) (`lite`)
 
 In settings.py
 
@@ -192,6 +192,19 @@ SUMMERNOTE_CONFIG = {
 
         # Use proper language setting automatically (default)
         'lang': None,
+        
+        # Toolbar customization
+        # https://summernote.org/deep-dive/#custom-toolbar-popover
+        'toolbar': [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'codeview', 'help']],
+        ],
 
         # Or, set editor language/locale forcely
         'lang': 'ko-KR',
