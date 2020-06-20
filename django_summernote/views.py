@@ -9,6 +9,8 @@ if django_version >= (3, 0):
 else:
     from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView
+from django.utils.decorators import method_decorator
+from django.views.decorators.clickjacking import xframe_options_sameorigin
 
 from django_summernote.forms import UploadForm
 from django_summernote.utils import get_attachment_model, using_config, \
@@ -44,6 +46,10 @@ class SummernoteEditor(TemplateView):
             + static_default_js \
             + config['js']
 
+    @method_decorator(xframe_options_sameorigin)
+    def dispatch(self, *args, **kwargs):
+        return super(SummernoteEditor, self).dispatch(*args, **kwargs)
+
     @using_config
     def get_context_data(self, **kwargs):
         context = super(SummernoteEditor, self).get_context_data(**kwargs)
@@ -64,6 +70,10 @@ class SummernoteUploadAttachment(UserPassesTestMixin, View):
 
     def __init__(self):
         super(SummernoteUploadAttachment, self).__init__()
+
+    @method_decorator(xframe_options_sameorigin)
+    def dispatch(self, *args, **kwargs):
+        return super(SummernoteUploadAttachment, self).dispatch(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         return JsonResponse({
