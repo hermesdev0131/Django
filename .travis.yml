@@ -8,7 +8,6 @@ python:
   - "3.9"
 install:
   - pip install -q -U pip tox tox-travis
-  - pip install -e .[dev]
 script:
   - tox
 after_success:
