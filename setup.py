@@ -38,4 +38,11 @@ setup(
     classifiers=CLASSIFIERS,
 
     install_requires=['django', 'bleach'],
+    extras_require={
+        'dev': [
+            'django-dummy-plug',
+            'pytest',
+            'pytest-django',
+        ]
+    },
 )
