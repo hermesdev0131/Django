@@ -6,6 +6,8 @@ from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
 from django.views.generic import TemplateView, View
+from django.utils.decorators import method_decorator
+from django.views.decorators.clickjacking import xframe_options_sameorigin
 
 from django_summernote.forms import UploadForm
 from django_summernote.utils import get_attachment_model, using_config, \
@@ -35,6 +37,10 @@ class SummernoteEditor(TemplateView):
             + static_default_js \
             + config['js']
 
+    @method_decorator(xframe_options_sameorigin)
+    def dispatch(self, *args, **kwargs):
+        return super(SummernoteEditor, self).dispatch(*args, **kwargs)
+
     @using_config
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -55,6 +61,10 @@ class SummernoteUploadAttachment(UserPassesTestMixin, View):
 
     def __init__(self):
         super().__init__()
+
+    @method_decorator(xframe_options_sameorigin)
+    def dispatch(self, *args, **kwargs):
+        return super(SummernoteUploadAttachment, self).dispatch(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         return JsonResponse({
