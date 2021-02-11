@@ -55,4 +55,5 @@ djs_playground/static
 # Misc
 .envrc
 .tool-versions
+.direnv
 
