@@ -1,5 +1,3 @@
-import django
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -7,7 +5,7 @@ DATABASES = {
     }
 }
 
-__MIDDLEWARE__ = (
+MIDDLEWARE = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -15,11 +13,6 @@ __MIDDLEWARE__ = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.locale.LocaleMiddleware',
 )
-
-if django.VERSION < (1, 10):
-    MIDDLEWARE_CLASSES = __MIDDLEWARE__
-else:
-    MIDDLEWARE = __MIDDLEWARE__
 
 STATIC_URL = '/'
 MEDIA_URL = '/media/'
