@@ -297,7 +297,7 @@ class DjangoSummernoteTest(TestCase):
         url = reverse('django_summernote-upload_attachment')
 
         try:
-            from PIL import Image
+            from PIL import Image  # noqa: F401
             with open(IMAGE_FILE, 'rb') as fp:
                 response = self.client.post(url, {'files': [fp]})
                 self.assertEqual(response.status_code, 200)

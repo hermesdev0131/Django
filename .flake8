@@ -1,3 +1,4 @@
 [flake8]
-# E501 line too long
-ignore = E501 
+# E501 Line too long
+# W503 Line break occurred before a binary operator / replaced by W504
+ignore = E501, W503

@@ -5,7 +5,7 @@ from django.templatetags.static import static
 from django.forms.utils import flatatt
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
-from django_summernote.utils import get_proper_language, using_config, \
+from django_summernote.utils import get_proper_language, get_config, \
     has_codemirror_config
 
 try:
@@ -17,11 +17,10 @@ __all__ = ['SummernoteWidget', 'SummernoteInplaceWidget']
 
 
 class SummernoteWidgetBase(forms.Textarea):
-    @using_config
     def summernote_settings(self):
         lang = get_proper_language()
 
-        summernote_settings = config.get('summernote', {}).copy()
+        summernote_settings = get_config().get('summernote', {}).copy()
         summernote_settings.update({
             'lang': lang,
             'url': {
@@ -31,8 +30,8 @@ class SummernoteWidgetBase(forms.Textarea):
         })
         return summernote_settings
 
-    @using_config
     def value_from_datadict(self, data, files, name):
+        config = get_config()
         value = data.get(name, None)
 
         if value in config['empty']:
@@ -82,25 +81,24 @@ class SummernoteWidget(SummernoteWidgetBase):
 
 
 class SummernoteInplaceWidget(SummernoteWidgetBase):
-    @using_config
     def _media(self):
+        config = get_config()
         return forms.Media(
             css={
                 'all': (
-                        (config['codemirror_css'] if has_codemirror_config() else ()) +
-                        config['default_css'] +
-                        config['css_for_inplace']
+                    (config['codemirror_css'] if has_codemirror_config() else ())
+                    + config['default_css']
+                    + config['css_for_inplace']
                 )
             },
             js=(
-                    (config['codemirror_js'] if has_codemirror_config() else ()) +
-                    config['default_js'] +
-                    config['js_for_inplace']
+                (config['codemirror_js'] if has_codemirror_config() else ())
+                + config['default_js']
+                + config['js_for_inplace']
             ))
 
     media = property(_media)
 
-    @using_config
     def render(self, name, value, attrs=None, **kwargs):
         summernote_settings = self.summernote_settings()
         summernote_settings.update(self.attrs.get('summernote', {}))
@@ -110,7 +108,7 @@ class SummernoteInplaceWidget(SummernoteWidgetBase):
             'id': attrs['id'],
             'id_safe': attrs['id'].replace('-', '_'),
             'attrs': self.final_attr(attrs),
-            'config': config,
+            'config': get_config(),
             'settings': json.dumps(summernote_settings),
             'CSRF_COOKIE_NAME': django_settings.CSRF_COOKIE_NAME,
         }

@@ -1,5 +1,4 @@
 import logging
-from django import VERSION as django_version
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.templatetags.static import static
 from django.http import HttpResponse, JsonResponse
@@ -10,7 +9,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 
 from django_summernote.forms import UploadForm
-from django_summernote.utils import get_attachment_model, using_config, \
+from django_summernote.utils import get_attachment_model, get_config, \
     has_codemirror_config
 
 logger = logging.getLogger(__name__)
@@ -19,9 +18,9 @@ logger = logging.getLogger(__name__)
 class SummernoteEditor(TemplateView):
     template_name = 'django_summernote/widget_iframe_editor.html'
 
-    @using_config
     def __init__(self):
         super().__init__()
+        config = get_config()
 
         static_default_css = tuple(static(x) for x in config['default_css'])
         static_default_js = tuple(static(x) for x in config['default_js'])
@@ -37,11 +36,12 @@ class SummernoteEditor(TemplateView):
             + static_default_js \
             + config['js']
 
+        self.config = config
+
     @method_decorator(xframe_options_sameorigin)
     def dispatch(self, *args, **kwargs):
         return super(SummernoteEditor, self).dispatch(*args, **kwargs)
 
-    @using_config
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -49,18 +49,18 @@ class SummernoteEditor(TemplateView):
         context['id_safe'] = self.kwargs['id'].replace('-', '_')
         context['css'] = self.css
         context['js'] = self.js
-        context['config'] = config
+        context['config'] = get_config()
 
         return context
 
 
 class SummernoteUploadAttachment(UserPassesTestMixin, View):
-    @using_config
     def test_func(self):
-        return config['test_func_upload_view'](self.request)
+        return get_config()['test_func_upload_view'](self.request)
 
     def __init__(self):
         super().__init__()
+        self.config = get_config()
 
     @method_decorator(xframe_options_sameorigin)
     def dispatch(self, *args, **kwargs):
@@ -72,11 +72,10 @@ class SummernoteUploadAttachment(UserPassesTestMixin, View):
             'message': _('Only POST method is allowed'),
         }, status=400)
 
-    @using_config
     def post(self, request, *args, **kwargs):
         authenticated = request.user.is_authenticated
 
-        if config['disable_attachment']:
+        if self.config['disable_attachment']:
             logger.error(
                 'User<%s:%s> tried to use disabled attachment module.',
                 getattr(request.user, 'pk', None),
@@ -87,7 +86,7 @@ class SummernoteUploadAttachment(UserPassesTestMixin, View):
                 'message': _('Attachment module is disabled'),
             }, status=403)
 
-        if config['attachment_require_authentication'] and \
+        if self.config['attachment_require_authentication'] and \
                 not authenticated:
             return JsonResponse({
                 'status': 'false',
@@ -135,7 +134,7 @@ class SummernoteUploadAttachment(UserPassesTestMixin, View):
                 attachment = klass()
                 attachment.file = file
 
-                if file.size > config['attachment_filesize_limit']:
+                if file.size > self.config['attachment_filesize_limit']:
                     return JsonResponse({
                         'status': 'false',
                         'message': _('File size exceeds the limit allowed and cannot be saved'),
@@ -147,7 +146,7 @@ class SummernoteUploadAttachment(UserPassesTestMixin, View):
                 # choose relative/absolute url by config
                 attachment.url = attachment.file.url
 
-                if config['attachment_absolute_uri']:
+                if self.config['attachment_absolute_uri']:
                     attachment.url = request.build_absolute_uri(attachment.url)
 
                 attachments.append(attachment)
