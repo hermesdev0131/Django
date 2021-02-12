@@ -10,3 +10,9 @@ urlpatterns = [
     path('editor/<id>/', SummernoteEditor.as_view(),
          name='django_summernote-editor'),
 ]
+
+if not get_config()['disable_attachment']:
+    urlpatterns += [
+        path('upload_attachment/', SummernoteUploadAttachment.as_view(),
+             name='django_summernote-upload_attachment'),
+    ]
