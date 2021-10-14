@@ -1,7 +1,11 @@
-0.8.13.0 (WIP)
+0.8.19.0
 --------
- - Bump Summernote to 0.8.13
+ - #405: Set X-Frame-Options setting on a per-view basis (@czlee)
+ - #396: HTML escaping (@campfireman)
+
+ - Bump Summernote to 0.8.19
  - Drop support for Python 2
+ - Drop support for outdated Django versions
 
 0.8.11.6
 --------

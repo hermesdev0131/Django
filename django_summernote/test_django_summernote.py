@@ -1,28 +1,17 @@
 import json
 import os
-import sys
 from unittest.mock import patch
+from importlib import reload
 
 from django.apps import apps
 from django.contrib.admin.sites import AdminSite
 from django.contrib.auth.models import User
 from django.db import models
 from django.test import Client, TestCase, override_settings
+from django.urls import reverse
 
 from django_summernote.utils import (get_attachment_model,
                                      get_attachment_storage)
-
-try:
-    # Django >= 2.0
-    from django.urls import reverse
-except ImportError:
-    from django.core.urlresolvers import reverse
-
-
-if sys.version_info >= (3, 4):
-    from importlib import reload
-else:
-    from imp import reload
 
 
 IMAGE_FILE = 'django_summernote/static/summernote/summernote.png'

@@ -56,4 +56,4 @@ djs_playground/static
 .envrc
 .tool-versions
 .direnv
-
+.DS_Store
