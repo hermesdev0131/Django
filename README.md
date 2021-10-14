@@ -51,6 +51,10 @@ SETUP
 
        python manage.py migrate
 
+6. Collect static files before publishing or development.
+
+       python manage.py collectstatic
+
 USAGE
 -----
 ## Django admin site
