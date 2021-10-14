@@ -1,4 +1,28 @@
-(function($) {
+/*!
+ * 
+ * Super simple WYSIWYG editor v0.8.19
+ * https://summernote.org
+ *
+ *
+ * Copyright 2013- Alan Hong and contributors
+ * Summernote may be freely distributed under the MIT license.
+ *
+ * Date: 2021-10-13T19:41Z
+ *
+ */
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else {
+		var a = factory();
+		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
+	}
+})(self, function() {
+return /******/ (() => { // webpackBootstrap
+var __webpack_exports__ = {};
+(function ($) {
   $.extend($.summernote.lang, {
     'uz-UZ': {
       font: {
@@ -11,7 +35,7 @@
         strikethrough: 'Ўчирилган',
         subscript: 'Пастки индекс',
         superscript: 'Юқори индекс',
-        size: 'ҳарф ҳажми',
+        size: 'ҳарф ҳажми'
       },
       image: {
         image: 'Расм',
@@ -30,14 +54,14 @@
         dropImage: 'Суратни кўчириб ўтинг',
         selectFromFiles: 'Файллардан бирини танлаш',
         url: 'суратлар URL и',
-        remove: 'Суратни ўчириш',
+        remove: 'Суратни ўчириш'
       },
       video: {
         video: 'Видео',
         videoLink: 'Видеога ҳавола',
         insert: 'Видео',
         url: 'URL видео',
-        providers: '(YouTube, Vimeo, Vine, Instagram, DailyMotion или Youku)',
+        providers: '(YouTube, Vimeo, Vine, Instagram, DailyMotion или Youku)'
       },
       link: {
         link: 'Ҳавола',
@@ -46,13 +70,13 @@
         edit: 'Таҳрир қилиш',
         textToDisplay: 'Кўринадиган матн',
         url: 'URL ўтиш учун',
-        openInNewWindow: 'Янги дарчада очиш',
+        openInNewWindow: 'Янги дарчада очиш'
       },
       table: {
-        table: 'Жадвал',
+        table: 'Жадвал'
       },
       hr: {
-        insert: 'Горизонтал чизиқни қўйиш',
+        insert: 'Горизонтал чизиқни қўйиш'
       },
       style: {
         style: 'Услуб',
@@ -64,16 +88,16 @@
         h3: 'Сарлавҳа  3',
         h4: 'Сарлавҳа  4',
         h5: 'Сарлавҳа  5',
-        h6: 'Сарлавҳа  6',
+        h6: 'Сарлавҳа  6'
       },
       lists: {
         unordered: 'Белгиланган рўйҳат',
-        ordered: 'Рақамланган рўйҳат',
+        ordered: 'Рақамланган рўйҳат'
       },
       options: {
         help: 'Ёрдам',
         fullscreen: 'Бутун экран бўйича',
-        codeview: 'Бошланғич код',
+        codeview: 'Бошланғич код'
       },
       paragraph: {
         paragraph: 'Параграф',
@@ -82,7 +106,7 @@
         left: 'Чап қирғоққа тўғрилаш',
         center: 'Марказга тўғрилаш',
         right: 'Ўнг қирғоққа тўғрилаш',
-        justify: 'Эни бўйлаб чўзиш',
+        justify: 'Эни бўйлаб чўзиш'
       },
       color: {
         recent: 'Охирги ранг',
@@ -92,7 +116,7 @@
         transparent: 'Шаффоф',
         setTransparent: 'Шаффофдай қилиш',
         reset: 'Бекор қилиш',
-        resetToDefault: 'Стандартга оид тиклаш',
+        resetToDefault: 'Стандартга оид тиклаш'
       },
       shortcut: {
         shortcuts: 'Клавишларнинг ҳамохҳанглиги',
@@ -101,12 +125,17 @@
         action: 'Ҳаркат',
         paragraphFormatting: 'Параграфни форматлаш',
         documentStyle: 'Ҳужжатнинг тури',
-        extraKeys: 'Қўшимча имкониятлар',
+        extraKeys: 'Қўшимча имкониятлар'
       },
       history: {
         undo: 'Бекор қилиш',
-        redo: 'Қайтариш',
-      },
-    },
+        redo: 'Қайтариш'
+      }
+    }
   });
 })(jQuery);
+/******/ 	return __webpack_exports__;
+/******/ })()
+;
+});
+//# sourceMappingURL=summernote-uz-UZ.js.map

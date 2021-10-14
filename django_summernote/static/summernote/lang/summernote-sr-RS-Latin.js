@@ -1,4 +1,28 @@
-(function($) {
+/*!
+ * 
+ * Super simple WYSIWYG editor v0.8.19
+ * https://summernote.org
+ *
+ *
+ * Copyright 2013- Alan Hong and contributors
+ * Summernote may be freely distributed under the MIT license.
+ *
+ * Date: 2021-10-13T19:41Z
+ *
+ */
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else {
+		var a = factory();
+		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
+	}
+})(self, function() {
+return /******/ (() => { // webpackBootstrap
+var __webpack_exports__ = {};
+(function ($) {
   $.extend($.summernote.lang, {
     'sr-RS': {
       font: {
@@ -11,7 +35,7 @@
         strikethrough: 'Precrtano',
         subscript: 'Subscript',
         superscript: 'Superscript',
-        size: 'Veličina fonta',
+        size: 'Veličina fonta'
       },
       image: {
         image: 'Slika',
@@ -33,14 +57,14 @@
         maximumFileSizeError: 'Maximum file size exceeded.',
         url: 'Adresa slike',
         remove: 'Ukloni sliku',
-        original: 'Original',
+        original: 'Original'
       },
       video: {
         video: 'Video',
         videoLink: 'Veza ka videu',
         insert: 'Umetni video',
         url: 'URL video',
-        providers: '(YouTube, Vimeo, Vine, Instagram, DailyMotion ili Youku)',
+        providers: '(YouTube, Vimeo, Vine, Instagram, DailyMotion ili Youku)'
       },
       link: {
         link: 'Veza',
@@ -49,7 +73,7 @@
         edit: 'Uredi',
         textToDisplay: 'Tekst za prikaz',
         url: 'Internet adresa',
-        openInNewWindow: 'Otvori u novom prozoru',
+        openInNewWindow: 'Otvori u novom prozoru'
       },
       table: {
         table: 'Tabela',
@@ -59,10 +83,10 @@
         addColRight: 'Add column right',
         delRow: 'Delete row',
         delCol: 'Delete column',
-        delTable: 'Delete table',
+        delTable: 'Delete table'
       },
       hr: {
-        insert: 'Umetni horizontalnu liniju',
+        insert: 'Umetni horizontalnu liniju'
       },
       style: {
         style: 'Stil',
@@ -74,16 +98,16 @@
         h3: 'Zaglavlje 3',
         h4: 'Zaglavlje 4',
         h5: 'Zaglavlje 5',
-        h6: 'Zaglavlje 6',
+        h6: 'Zaglavlje 6'
       },
       lists: {
         unordered: 'Obična lista',
-        ordered: 'Numerisana lista',
+        ordered: 'Numerisana lista'
       },
       options: {
         help: 'Pomoć',
         fullscreen: 'Preko celog ekrana',
-        codeview: 'Izvorni kod',
+        codeview: 'Izvorni kod'
       },
       paragraph: {
         paragraph: 'Paragraf',
@@ -92,7 +116,7 @@
         left: 'Poravnaj u levo',
         center: 'Centrirano',
         right: 'Poravnaj u desno',
-        justify: 'Poravnaj obostrano',
+        justify: 'Poravnaj obostrano'
       },
       color: {
         recent: 'Poslednja boja',
@@ -102,7 +126,7 @@
         transparent: 'Providna',
         setTransparent: 'Providna',
         reset: 'Opoziv',
-        resetToDefault: 'Podrazumevana',
+        resetToDefault: 'Podrazumevana'
       },
       shortcut: {
         shortcuts: 'Prečice sa tastature',
@@ -111,7 +135,7 @@
         action: 'Akcija',
         paragraphFormatting: 'Formatiranje paragrafa',
         documentStyle: 'Stil dokumenta',
-        extraKeys: 'Dodatne kombinacije',
+        extraKeys: 'Dodatne kombinacije'
       },
       help: {
         'insertParagraph': 'Insert Paragraph',
@@ -140,16 +164,21 @@
         'formatH5': 'Change current block\'s format as H5',
         'formatH6': 'Change current block\'s format as H6',
         'insertHorizontalRule': 'Insert horizontal rule',
-        'linkDialog.show': 'Show Link Dialog',
+        'linkDialog.show': 'Show Link Dialog'
       },
       history: {
         undo: 'Poništi',
-        redo: 'Ponovi',
+        redo: 'Ponovi'
       },
       specialChar: {
         specialChar: 'SPECIAL CHARACTERS',
-        select: 'Select Special characters',
-      },
-    },
+        select: 'Select Special characters'
+      }
+    }
   });
 })(jQuery);
+/******/ 	return __webpack_exports__;
+/******/ })()
+;
+});
+//# sourceMappingURL=summernote-sr-RS-Latin.js.map

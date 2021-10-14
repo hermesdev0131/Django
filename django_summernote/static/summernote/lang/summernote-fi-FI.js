@@ -1,4 +1,28 @@
-(function($) {
+/*!
+ * 
+ * Super simple WYSIWYG editor v0.8.19
+ * https://summernote.org
+ *
+ *
+ * Copyright 2013- Alan Hong and contributors
+ * Summernote may be freely distributed under the MIT license.
+ *
+ * Date: 2021-10-13T19:41Z
+ *
+ */
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else {
+		var a = factory();
+		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
+	}
+})(self, function() {
+return /******/ (() => { // webpackBootstrap
+var __webpack_exports__ = {};
+(function ($) {
   $.extend($.summernote.lang, {
     'fi-FI': {
       font: {
@@ -11,7 +35,7 @@
         strikethrough: 'Yliviivaus',
         subscript: 'Alaindeksi',
         superscript: 'Yläindeksi',
-        size: 'Kirjasinkoko',
+        size: 'Kirjasinkoko'
       },
       image: {
         image: 'Kuva',
@@ -32,14 +56,14 @@
         maximumFileSizeError: 'Maksimi tiedosto koko ylitetty.',
         url: 'URL-osoitteen mukaan',
         remove: 'Poista kuva',
-        original: 'Alkuperäinen',
+        original: 'Alkuperäinen'
       },
       video: {
         video: 'Video',
         videoLink: 'Linkki videoon',
         insert: 'Lisää video',
         url: 'Videon URL-osoite',
-        providers: '(YouTube, Vimeo, Vine, Instagram, DailyMotion tai Youku)',
+        providers: '(YouTube, Vimeo, Vine, Instagram, DailyMotion tai Youku)'
       },
       link: {
         link: 'Linkki',
@@ -48,7 +72,7 @@
         edit: 'Muokkaa',
         textToDisplay: 'Näytettävä teksti',
         url: 'Linkin URL-osoite',
-        openInNewWindow: 'Avaa uudessa ikkunassa',
+        openInNewWindow: 'Avaa uudessa ikkunassa'
       },
       table: {
         table: 'Taulukko',
@@ -58,10 +82,10 @@
         addColRight: 'Lisää sarake oikealle puolelle',
         delRow: 'Poista rivi',
         delCol: 'Poista sarake',
-        delTable: 'Poista taulukko',
+        delTable: 'Poista taulukko'
       },
       hr: {
-        insert: 'Lisää vaakaviiva',
+        insert: 'Lisää vaakaviiva'
       },
       style: {
         style: 'Tyyli',
@@ -73,16 +97,16 @@
         h3: 'Otsikko 3',
         h4: 'Otsikko 4',
         h5: 'Otsikko 5',
-        h6: 'Otsikko 6',
+        h6: 'Otsikko 6'
       },
       lists: {
         unordered: 'Luettelomerkitty luettelo',
-        ordered: 'Numeroitu luettelo',
+        ordered: 'Numeroitu luettelo'
       },
       options: {
         help: 'Ohje',
         fullscreen: 'Koko näyttö',
-        codeview: 'HTML-näkymä',
+        codeview: 'HTML-näkymä'
       },
       paragraph: {
         paragraph: 'Kappale',
@@ -91,7 +115,7 @@
         left: 'Tasaa vasemmalle',
         center: 'Keskitä',
         right: 'Tasaa oikealle',
-        justify: 'Tasaa',
+        justify: 'Tasaa'
       },
       color: {
         recent: 'Viimeisin väri',
@@ -101,7 +125,7 @@
         transparent: 'Läpinäkyvä',
         setTransparent: 'Aseta läpinäkyväksi',
         reset: 'Palauta',
-        resetToDefault: 'Palauta oletusarvoksi',
+        resetToDefault: 'Palauta oletusarvoksi'
       },
       shortcut: {
         shortcuts: 'Pikanäppäimet',
@@ -109,7 +133,7 @@
         textFormatting: 'Tekstin muotoilu',
         action: 'Toiminto',
         paragraphFormatting: 'Kappaleen muotoilu',
-        documentStyle: 'Asiakirjan tyyli',
+        documentStyle: 'Asiakirjan tyyli'
       },
       help: {
         'insertParagraph': 'Lisää kappale',
@@ -138,16 +162,21 @@
         'formatH5': 'Muuta kappaleen formaatti H5',
         'formatH6': 'Muuta kappaleen formaatti H6',
         'insertHorizontalRule': 'Lisää vaakaviiva',
-        'linkDialog.show': 'Lisää linkki',
+        'linkDialog.show': 'Lisää linkki'
       },
       history: {
         undo: 'Kumoa',
-        redo: 'Toista',
+        redo: 'Toista'
       },
       specialChar: {
         specialChar: 'ERIKOISMERKIT',
-        select: 'Valitse erikoismerkit',
-      },
-    },
+        select: 'Valitse erikoismerkit'
+      }
+    }
   });
 })(jQuery);
+/******/ 	return __webpack_exports__;
+/******/ })()
+;
+});
+//# sourceMappingURL=summernote-fi-FI.js.map
