@@ -1,3 +1,7 @@
+0.8.20.0
+--------
+ - Hotfix for wrong font urls
+
 0.8.19.0
 --------
  - #405: Set X-Frame-Options setting on a per-view basis (@czlee)

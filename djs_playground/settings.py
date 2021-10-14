@@ -153,6 +153,3 @@ SUMMERNOTE_CONFIG = {
     },
     'lazy': False,
 }
-
-# From Django 3.0, this setting is necessary for iframe
-X_FRAME_OPTIONS = 'SAMEORIGIN'
