@@ -143,6 +143,7 @@ You can change the theme by setting `SUMMERNOTE_THEME = '<theme_name>'` in `sett
 
  - `bs3`: Bootstrap3 theme
  - `bs4`: Bootstrap4 theme
+ - `bs5`: Bootstrap5 theme
  - `lite`: Lite UI theme (without Bootstrap)
 
 In settings.py
