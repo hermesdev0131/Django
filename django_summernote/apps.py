@@ -49,12 +49,12 @@ class DjangoSummernoteConfig(AppConfig):
 
             # Media files for CodeMirror
             'codemirror_css': (
-                '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.40.0/codemirror.min.css',
+                '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/codemirror.min.css',
             ),
             'codemirror_js': (
-                '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.40.0/codemirror.js',
-                '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.40.0/mode/xml/xml.js',
-                '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.40.0/mode/htmlmixed/htmlmixed.js',
+                '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/codemirror.min.js',
+                '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/mode/xml/xml.min.js',
+                '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/mode/htmlmixed/htmlmixed.min.js',
             ),
 
             # Media files for all Summernote widgets
